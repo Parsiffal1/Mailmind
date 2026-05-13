@@ -1,46 +1,51 @@
 # MailMind
 
-[中文 README](README.zh-CN.md)
+[English](README.md) | [中文](README.zh.md)
 
 ![MailMind brand hero](docs/demo/gifs/mailmind_brand_hero.gif)
 
-MailMind is a local-first Gmail intelligence agent that turns a personal inbox into structured tasks, searchable context, and privacy-aware AI answers. It uses the read-only Gmail API, extracts action items and deadlines with Claude or a mock provider, stores data locally in SQLite, serves a FastAPI + Next.js dashboard, and can send Telegram reminders.
+MailMind is a local-first Gmail intelligence agent for people who lose tasks, deadlines, forms, and follow-ups inside a busy inbox.
 
-MailMind is open-source local software, not a hosted SaaS. Everyone can clone and run it locally. To connect a real Gmail account, each user creates their own Google OAuth desktop client because Gmail `gmail.readonly` is a restricted scope.
+It reads Gmail with the read-only Gmail API, extracts action items with an LLM, stores everything locally in SQLite, and gives you a dashboard, Telegram reminders, and source-grounded AI search across email bodies and PDF attachments.
 
-## Features
+## What This Project Is
 
-- Read-only Gmail ingestion with local OAuth browser flow.
-- LLM task extraction with Pydantic validation and retry handling.
-- SQLite persistence for emails, tasks, attachments, processing logs, and settings.
-- One-click refresh that polls Gmail, extracts tasks, refreshes dashboard data, and updates enabled AI search indexes.
-- Telegram bot commands: `/list`, `/today`, `/done <id>`, `/search <keyword>`, `/poll`.
-- APScheduler worker for optional Gmail polling, daily digests, and deadline reminders.
-- Next.js dashboard statically exported and served by FastAPI.
-- AI search over email bodies and PDF attachments using local BGE-M3 embeddings, ChromaDB, SQLite FTS5 BM25 hybrid search, parent-child retrieval, reranking, and Claude source-grounded answers.
-- PII Guard with `off` and `rehydrated` modes. In rehydrated mode, placeholders are sent to Claude and restored locally for the user.
-- Sample/demo mode for screenshots, README GIFs, and local exploration without Gmail credentials.
+MailMind is a personal productivity system, not a hosted SaaS. You run it on your own machine, connect your own Gmail OAuth desktop client, and keep the database, attachments, and search index local.
 
-## Architecture
+The project is designed as a portfolio-grade open-source MVP with production-style architecture decisions: validated LLM outputs, explicit privacy boundaries, source-grounded RAG, scheduler jobs, and a dashboard that can be used without real Gmail data through demo mode.
 
-```text
-Gmail API read-only OAuth
-        |
-        v
-FastAPI backend + SQLite
-        |
-        +--> LLM task extraction -> tasks, deadlines, priorities
-        |
-        +--> AI search index -> email chunks + PDF chunks -> Chroma + SQLite FTS5
-        |
-        +--> Next.js dashboard served from FastAPI
-        |
-        +--> APScheduler worker + Telegram bot
-```
+## Who This Is For
+
+MailMind is useful if you:
+
+- receive school, recruiting, admin, finance, or form-heavy emails;
+- want a local task layer on top of Gmail without giving a hosted app broad mailbox access;
+- want to study an end-to-end LLM application with Gmail OAuth, FastAPI, SQLite, Next.js, Telegram, RAG, and privacy controls;
+- need a concrete resume project that goes beyond a basic chatbot.
+
+It is not meant for multi-user SaaS deployment out of the box. Gmail restricted scopes require Google verification before public production use.
+
+## What You Get
+
+- A one-click refresh workflow that polls Gmail, extracts tasks, updates the dashboard, and indexes enabled AI search sources.
+- Structured tasks with priority, due date, reply flag, review flag, source email, and completion state.
+- AI search over Gmail bodies and text-layer PDF attachments with local BGE-M3 embeddings, ChromaDB, SQLite FTS5 BM25 hybrid search, parent-child retrieval, reranking, and Claude answers with source cards.
+- Optional Telegram commands: `/list`, `/today`, `/done <id>`, `/search <keyword>`, `/poll`.
+- Optional scheduler jobs for polling, daily digests, and deadline reminders.
+- PII Guard with `off` and `rehydrated` modes. Rehydrated mode sends placeholders to Claude and restores the answer locally.
+- Sample/demo mode for public screenshots and README GIFs without exposing real Gmail data.
+
+## Demo
+
+![MailMind AI search demo](docs/demo/gifs/hero_ai_search.gif)
+
+The checked-in demo assets are generated from synthetic sample data. They do not contain real emails, OAuth tokens, API keys, or attachments.
 
 ## Quick Start: Demo Mode
 
-Demo mode lets you open the dashboard with sample data. It does not need Gmail credentials, Telegram credentials, or a Claude key.
+Demo mode is the fastest way to see the product without Gmail credentials or paid API calls.
+
+Windows PowerShell:
 
 ```powershell
 git clone https://github.com/Parsiffal1/Mailmind.git
@@ -72,7 +77,7 @@ Set this in `.env`:
 MAILMIND_LLM_PROVIDER=mock
 ```
 
-Build and run:
+Build the dashboard and start the API:
 
 ```powershell
 cd dashboard
@@ -89,15 +94,15 @@ Open:
 http://127.0.0.1:8000/?demo=1
 ```
 
-## Quick Start: Real Gmail Mode
+## Connect Real Gmail
 
-1. Go to Google Cloud Console.
+1. Open Google Cloud Console.
 2. Create or select a project.
 3. Enable the Gmail API.
-4. Configure the Google Auth Platform consent screen for external testing.
+4. Configure Google Auth Platform consent screen for external testing.
 5. Create an OAuth client ID with application type `Desktop app`.
 6. Download the OAuth client JSON and save it as `credentials.json` in the project root.
-7. Add your own Gmail address as a test user in Google Auth Platform.
+7. Add your Gmail address as a test user in Google Auth Platform.
 
 Then configure `.env`:
 
@@ -110,7 +115,7 @@ MAILMIND_POLL_QUERY=newer_than:14d
 MAILMIND_POLL_LIMIT=40
 ```
 
-Run the API:
+Run:
 
 ```powershell
 python -m mailmind.api
@@ -118,17 +123,60 @@ python -m mailmind.api
 
 Open `http://127.0.0.1:8000`, click `Refresh`, and complete the browser OAuth flow. MailMind writes `token.json` locally after the first successful login.
 
-## Running Workers and Bot
+## Core Workflow
 
-The dashboard API is enough for manual refresh and demo usage.
+```text
+Gmail readonly OAuth
+        |
+        v
+FastAPI backend + SQLite
+        |
+        +--> LLM task extraction -> tasks, deadlines, priorities
+        |
+        +--> AI search index -> email chunks + PDF chunks
+        |                         -> Chroma vector search + SQLite FTS5
+        |
+        +--> Next.js dashboard
+        |
+        +--> APScheduler worker + Telegram bot
+```
 
-Run the optional scheduler worker:
+## AI Search and RAG
+
+MailMind can index Gmail email bodies, text-layer PDF attachments, or both.
+
+Retrieval uses:
+
+- structure-aware email/PDF chunking;
+- child chunks for embedding and search;
+- parent context expansion before answer generation;
+- Chroma vector retrieval with local BGE-M3 embeddings;
+- SQLite FTS5 BM25 keyword retrieval;
+- fusion, reranking, source grouping, deduplication, and score aggregation;
+- Claude answers with source-labeled context.
+
+The first local embedding run downloads `BAAI/bge-m3` through `sentence-transformers`. If reranking is enabled, the first rerank query downloads `BAAI/bge-reranker-base`.
+
+## Privacy Model
+
+MailMind supports two routes:
+
+- `off`: Claude receives original text.
+- `rehydrated`: MailMind replaces selected PII with local placeholders before sending prompts to Claude, then restores the final answer locally.
+
+PII Guard covers email addresses, phone numbers, SSNs, ID-like values, account-like numbers, API keys/tokens/secrets, and conservative English person names. Dates are preserved so deadline extraction and RAG answers still work.
+
+This is privacy risk reduction, not compliance certification. SQLite databases, downloaded attachments, Chroma indexes, and FTS indexes remain local but are not globally redacted.
+
+## Run Optional Services
+
+Scheduler worker:
 
 ```powershell
 python -m mailmind.worker
 ```
 
-Run the optional Telegram bot:
+Telegram bot:
 
 ```powershell
 python -m mailmind.bot
@@ -142,79 +190,25 @@ TELEGRAM_CHAT_ID=your_chat_id
 MAILMIND_TELEGRAM_NOTIFICATIONS_ENABLED=true
 ```
 
-## Configuration
-
-Most settings live in `.env` and can also be edited from the dashboard settings page.
+## Repository Structure
 
 ```text
-MAILMIND_DB_PATH=data/mailmind.db
-MAILMIND_POLL_QUERY=newer_than:14d
-MAILMIND_POLL_LIMIT=40
-
-MAILMIND_SCHEDULER_ENABLED=true
-MAILMIND_POLL_INTERVAL_MINUTES=15
-MAILMIND_DAILY_DIGEST_ENABLED=true
-MAILMIND_DAILY_DIGEST_TIME=08:00
-MAILMIND_DEADLINE_REMINDERS_ENABLED=true
-
-MAILMIND_RAG_ENABLED=true
-MAILMIND_RAG_EMAIL_ENABLED=true
-MAILMIND_RAG_PDF_ENABLED=true
-MAILMIND_EMBEDDING_PROVIDER=local_bge_m3
-MAILMIND_BGE_MODEL=BAAI/bge-m3
-MAILMIND_RAG_HYBRID_ENABLED=true
-MAILMIND_RAG_RERANK_ENABLED=true
-
-MAILMIND_PII_ENABLED=true
-MAILMIND_PII_MODE=rehydrated
+mailmind/          FastAPI backend, Gmail client, extraction, database, RAG, worker, bot
+dashboard/         Next.js dashboard exported and served by FastAPI
+prompts/           Claude prompt files for task extraction and RAG answers
+tests/             Unit tests for parser, database, API, extraction, RAG, privacy
+scripts/           Demo asset generation, RAG evaluation, GitHub publishing helper
+docs/              Demo flow, PII architecture, README GIFs and screenshots
+eval/              Small RAG evaluation seed file and evaluation report
 ```
 
-The first local embedding run downloads `BAAI/bge-m3` through `sentence-transformers`. If reranking is enabled, the first rerank query downloads `BAAI/bge-reranker-base`.
+## What To Read Next
 
-## AI Search and RAG
-
-MailMind can index:
-
-- Gmail email bodies.
-- Text-layer PDF attachments.
-- Both, depending on settings.
-
-Retrieval uses a hybrid pipeline:
-
-1. Structure-aware email/PDF chunking.
-2. Child chunks for embedding and search.
-3. Parent context expansion before answer generation.
-4. Chroma vector retrieval with local BGE-M3 embeddings.
-5. SQLite FTS5 BM25 keyword retrieval.
-6. RRF-style fusion, reranking, source grouping, deduplication, and score aggregation.
-7. Claude answers with source-labeled context.
-
-## PII Guard
-
-MailMind supports two privacy routes:
-
-- `off`: Claude receives the original text.
-- `rehydrated`: MailMind replaces selected PII with local placeholders before sending prompts to Claude, then restores the final answer locally.
-
-PII Guard covers email addresses, phone numbers, SSNs, ID-like values, account-like numbers, API keys/tokens/secrets, and conservative English person names. Dates are preserved so deadline extraction and RAG answers continue to work.
-
-This is privacy risk reduction, not compliance certification. Local SQLite databases, downloaded attachments, Chroma indexes, and FTS indexes are not globally redacted.
-
-## Demo Assets
-
-![MailMind AI search demo](docs/demo/gifs/hero_ai_search.gif)
-
-- Demo flow: [docs/DEMO_FLOW.md](docs/DEMO_FLOW.md)
-- GitHub assets: [docs/demo/GITHUB_ASSETS.md](docs/demo/GITHUB_ASSETS.md)
-- Brand storyboard: [docs/demo/MAILMIND_BRAND_GIF_STORYBOARD.md](docs/demo/MAILMIND_BRAND_GIF_STORYBOARD.md)
-
-Regenerate demo screenshots and GIFs:
-
-```powershell
-node scripts\capture_demo_screenshots.mjs
-python scripts\create_demo_gifs.py
-python scripts\create_brand_hero_gif.py
-```
+- Demo walkthrough: [docs/DEMO_FLOW.md](docs/DEMO_FLOW.md)
+- PII architecture: [docs/PII_ARCHITECTURE.md](docs/PII_ARCHITECTURE.md)
+- Security notes: [SECURITY.md](SECURITY.md)
+- Contribution guide: [CONTRIBUTING.md](CONTRIBUTING.md)
+- Demo assets: [docs/demo/GITHUB_ASSETS.md](docs/demo/GITHUB_ASSETS.md)
 
 ## RAG Evaluation
 
@@ -227,28 +221,29 @@ python scripts\eval_rag.py --mode hybrid --top-k 4
 
 The evaluator reports source recall and retrieved source labels. Synthetic and hard-negative evaluators build temporary local indexes and should not be committed with generated index data.
 
-## Security Notes
+## Project Status and Boundaries
 
-Never commit:
+MailMind is a working local MVP. It is suitable for personal local use, portfolio review, and further development.
 
-- `.env`
-- `credentials.json`
-- `token.json`
-- `data/`
-- `attachments/`
-- `chroma/`
-- local database files
+Current boundaries:
 
-Gmail `gmail.readonly` is a restricted OAuth scope. This project is intended for local personal use. If you turn MailMind into a public hosted product, you must handle Google OAuth verification, privacy policy, user data deletion, and any required security assessment.
+- not a public hosted SaaS;
+- no multi-user account model;
+- no OCR for scanned PDFs;
+- no production Google OAuth restricted-scope verification;
+- no compliance claim for PII handling;
+- no real-time Gmail push notifications yet.
 
-## Tech Stack
+## Community
 
-Python, FastAPI, SQLite, APScheduler, Telegram Bot API, Gmail API, Google OAuth, Anthropic Claude, Pydantic, Next.js, React, LangChain, ChromaDB, sentence-transformers, BGE-M3, SQLite FTS5, pdfplumber.
+Issues and pull requests are welcome. Good first contributions include documentation fixes, new tests, retrieval evaluation cases, UI polish, and safer setup automation.
 
-## Resume Description
-
-Built a local-first Gmail intelligence agent that polls Gmail through the read-only Gmail API, extracts action items and deadlines from unstructured email text using an LLM with Pydantic validation, stores normalized tasks in SQLite, and sends proactive reminders through a Telegram bot. Added a Next.js/FastAPI dashboard and an email/PDF RAG system with structure-aware chunking, parent-child retrieval, local BGE-M3 embeddings, ChromaDB, SQLite FTS5 BM25 hybrid search, reranking, Claude source-grounded answers, and PII placeholder rehydration.
+Please do not post real email content, OAuth tokens, API keys, or private attachments in issues.
 
 ## License
 
 MIT
+
+## Resume Description
+
+Built a local-first Gmail intelligence agent that polls Gmail through the read-only Gmail API, extracts action items and deadlines from unstructured email text using an LLM with Pydantic validation, stores normalized tasks in SQLite, and sends proactive reminders through a Telegram bot. Added a Next.js/FastAPI dashboard and an email/PDF RAG system with structure-aware chunking, parent-child retrieval, local BGE-M3 embeddings, ChromaDB, SQLite FTS5 BM25 hybrid search, reranking, Claude source-grounded answers, and PII placeholder rehydration.

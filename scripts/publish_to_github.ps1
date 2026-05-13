@@ -77,9 +77,13 @@ git add `
     .env.example `
     LICENSE `
     README.md `
+    README.zh.md `
     README.zh-CN.md `
     SECURITY.md `
+    CONTRIBUTING.md `
+    pytest.ini `
     requirements.txt `
+    .github `
     mailmind `
     dashboard/app `
     dashboard/public `

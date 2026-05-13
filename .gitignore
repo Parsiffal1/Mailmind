@@ -40,3 +40,9 @@ Thumbs.db
 
 # Local publication bundles
 release/
+
+# Keep GitHub community files tracked
+!.github/
+!.github/ISSUE_TEMPLATE/
+!.github/ISSUE_TEMPLATE/*.md
+!.github/pull_request_template.md
