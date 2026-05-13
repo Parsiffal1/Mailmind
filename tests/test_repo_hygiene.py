@@ -51,6 +51,10 @@ def test_readmes_surface_visual_demo_and_navigation():
     assert "## 一次刷新后你会得到什么" in zh
     assert "## Quick Start" in en
     assert "## 快速开始" in zh
+    assert "a RAG-based search layer over email bodies and PDF attachments" in en
+    assert "基于 RAG 的邮件正文与 PDF 附件搜索能力" in zh
+    assert "MailMind ships with checked-in demo assets generated from synthetic sample data" not in en
+    assert "仓库内已经包含基于 synthetic sample data 生成的演示素材，因此 GitHub 首页展示的是实际产品界面，而不是空壳示意图。" not in zh
     assert "## Who This Is For" not in en
     assert "## 适合谁使用" not in zh
     assert "## What This Project Is" not in en
@@ -69,6 +73,21 @@ def test_readmes_use_clean_real_gmail_examples():
         assert "MAILMIND_GMAIL_CREDENTIALS=***" not in text
         assert "MAILMIND_GMAIL_TOKEN=***" not in text
         assert "TELEGRAM_BOT_TOKEN=your_t...oken" not in text
+
+
+def test_readmes_include_rag_benchmark_table():
+    en = read_text(REPO_ROOT / "README.md")
+    zh = read_text(REPO_ROOT / "README.zh.md")
+    for text in (en, zh):
+        assert "48.35%" in text
+        assert "63.74%" in text
+        assert "78.02%" in text
+        assert "64.84%" in text
+        assert "0.691" in text
+        assert "+15.39 pp" in text
+        assert "+19.78 pp" in text
+        assert "+18.69 pp" in text
+        assert "+0.169" in text
 
 
 def test_env_example_uses_clean_placeholder_values():

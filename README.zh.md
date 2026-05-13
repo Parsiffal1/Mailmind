@@ -10,7 +10,7 @@
 
 MailMind 是一个 local-first 的 Gmail 智能助手，可以把拥挤的邮箱转成任务系统、可搜索的信息层，以及带隐私边界的个人工作流。
 
-它通过 Gmail 只读 API 拉取邮件，用 LLM 提取行动项，把数据保存在本地 SQLite，并提供 dashboard、基于邮件正文和 PDF 附件的 AI Search、Telegram 提醒，以及可配置的隐私控制。
+它通过 Gmail 只读 API 拉取邮件，用 LLM 提取行动项，把数据保存在本地 SQLite，并提供 dashboard、基于 RAG 的邮件正文与 PDF 附件搜索能力、Telegram 提醒，以及可配置的隐私控制。
 
 ## 为什么它不一样
 
@@ -46,7 +46,6 @@ MailMind 走的是另一条路线：
 
 ## 界面预览
 
-仓库内已经包含基于 synthetic sample data 生成的演示素材，因此 GitHub 首页展示的是实际产品界面，而不是空壳示意图。
 
 ![任务总览](docs/demo/screenshots/01_tasks_overview.png)
 ![AI 搜索答案](docs/demo/screenshots/02_ai_search_answer.png)
@@ -201,6 +200,15 @@ MailMind 可以索引 Gmail 邮件正文、text-layer PDF 附件，或两者同�
 - SQLite FTS5 BM25 keyword retrieval；
 - fusion、reranking、source grouping、deduplication 和 score aggregation；
 - Claude 基于 source-labeled context 回答。
+
+当前 50-case post-improvement benchmark（见 `eval/RAG_EVALUATION_RESULTS.md`）：
+
+| 指标 | Vector-only | Hybrid after | 提升 |
+| --- | ---: | ---: | ---: |
+| Top-1 Source Recall | 48.35% | 63.74% | +15.39 pp |
+| Any-source Recall@4 | 58.24% | 78.02% | +19.78 pp |
+| Full-source Recall@4 | 46.15% | 64.84% | +18.69 pp |
+| MRR | 0.522 | 0.691 | +0.169 |
 
 第一次本地 embedding 会通过 `sentence-transformers` 下载 `BAAI/bge-m3`。如果开启 reranking，第一次 rerank 查询会下载 `BAAI/bge-reranker-base`。
 

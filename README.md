@@ -10,7 +10,7 @@
 
 MailMind is a local-first Gmail intelligence agent that turns a crowded inbox into a task system, a searchable knowledge layer, and a privacy-aware personal workflow.
 
-It reads Gmail through the read-only Gmail API, extracts action items with an LLM, stores everything locally in SQLite, and gives you a dashboard, source-grounded AI search over email bodies and PDF attachments, Telegram reminders, and configurable privacy controls.
+It reads Gmail through the read-only Gmail API, extracts action items with an LLM, stores everything locally in SQLite, and gives you a dashboard, a RAG-based search layer over email bodies and PDF attachments, Telegram reminders, and configurable privacy controls.
 
 ## Why It Feels Different
 
@@ -46,7 +46,6 @@ Recent inbox activity
 
 ## Interface Preview
 
-MailMind ships with checked-in demo assets generated from synthetic sample data, so the public repo can show the real product surface without exposing real inbox content.
 
 ![Tasks overview](docs/demo/screenshots/01_tasks_overview.png)
 ![AI search answer](docs/demo/screenshots/02_ai_search_answer.png)
@@ -201,6 +200,15 @@ Retrieval uses:
 - SQLite FTS5 BM25 keyword retrieval;
 - fusion, reranking, source grouping, deduplication, and score aggregation;
 - Claude answers with source-labeled context.
+
+Current 50-case post-improvement benchmark (`eval/RAG_EVALUATION_RESULTS.md`):
+
+| Metric | Vector-only | Hybrid after | Improvement |
+| --- | ---: | ---: | ---: |
+| Top-1 Source Recall | 48.35% | 63.74% | +15.39 pp |
+| Any-source Recall@4 | 58.24% | 78.02% | +19.78 pp |
+| Full-source Recall@4 | 46.15% | 64.84% | +18.69 pp |
+| MRR | 0.522 | 0.691 | +0.169 |
 
 The first local embedding run downloads `BAAI/bge-m3` through `sentence-transformers`. If reranking is enabled, the first rerank query downloads `BAAI/bge-reranker-base`.
 
