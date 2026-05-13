@@ -33,13 +33,24 @@ def test_readmes_keep_language_switch_links():
     assert "[English](README.md) | [中文](README.zh.md)" in read_text(REPO_ROOT / "README.zh.md")
 
 
+def test_readmes_surface_visual_demo_and_navigation():
+    en = read_text(REPO_ROOT / "README.md")
+    zh = read_text(REPO_ROOT / "README.zh.md")
+    for text in (en, zh):
+        assert "docs/demo/gifs/mailmind_brand_hero.gif" in text
+        assert "docs/demo/screenshots/01_tasks_overview.png" in text
+        assert "docs/demo/gifs/hero_ai_search.gif" in text
+    assert "## Quick Navigation" in en
+    assert "## 快速导航" in zh
+
+
 def test_env_example_uses_clean_placeholder_values():
     env_example = read_text(REPO_ROOT / ".env.example")
     assert "credentials.json" in env_example
     assert "token.json" in env_example
-    assert "ANTHROPIC_API_KEY=" in env_example
-    assert "TELEGRAM_BOT_TOKEN=" in env_example
-    assert "VOYAGE_API_KEY=" in env_example
+    assert "ANTHROPIC_API_KEY=your_anthropic_api_key" in env_example
+    assert "TELEGRAM_BOT_TOKEN=your_telegram_bot_token" in env_example
+    assert "VOYAGE_API_KEY=your_voyage_api_key" in env_example
     assert "18|" not in env_example
     assert "22|" not in env_example
     assert "34|" not in env_example
