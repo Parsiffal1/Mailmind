@@ -12,7 +12,7 @@ MailMind 是一个 local-first 的 Gmail 智能助手，可以把拥挤的邮箱
 
 它通过 Gmail 只读 API 拉取邮件，用 LLM 提取行动项，把数据保存在本地 SQLite，并提供 dashboard、基于邮件正文和 PDF 附件的 AI Search、Telegram 提醒，以及可配置的隐私控制。
 
-## 项目概览
+## 为什么它不一样
 
 很多邮箱工具要么只停留在规则筛选，要么要求你把整个邮箱交给托管服务。
 
@@ -21,8 +21,18 @@ MailMind 走的是另一条路线：
 - **默认 local-first**：数据库、附件和索引都留在你的机器上。
 - **结构化任务抽取**：从杂乱的邮件线程里提取 deadline、待回复、待处理和待审核事项。
 - **带来源依据的 AI Search**：回答会附上 source cards，而不是无依据的聊天式输出。
-- **完整的工程展示面**：FastAPI、Next.js、SQLite、Gmail OAuth、scheduler、Telegram、RAG 和隐私边界都放在同一个项目里闭环呈现。
+- **统一的产品闭环**：FastAPI、Next.js、SQLite、Gmail OAuth、scheduler、Telegram、RAG 和隐私边界不是分散的 demo，而是在同一个项目里一起工作。
 - **适合公开演示**：仓库内包含 synthetic demo assets，可以安全展示产品而不暴露真实邮箱数据。
+
+## 一次刷新后你会得到什么
+
+```text
+最近的邮箱动态
+  -> 带 due date 和 reply-needed 标记的结构化任务
+  -> 可搜索的邮件正文和 PDF 附件
+  -> 带来源依据的 inbox 问题回答
+  -> 可选的 Telegram 提醒和定时 follow-up
+```
 
 ## 核心能力
 
@@ -45,9 +55,10 @@ MailMind 走的是另一条路线：
 
 ## 快速导航
 
-- [项目概览](#项目概览)
+- [为什么它不一样](#为什么它不一样)
+- [一次刷新后你会得到什么](#一次刷新后你会得到什么)
 - [核心能力](#核心能力)
-- [快速开始：Demo Mode](#快速开始demo-mode)
+- [快速开始](#快速开始)
 - [接入真实 Gmail](#接入真实-gmail)
 - [流程概览](#流程概览)
 - [AI Search 和 RAG](#ai-search-和-rag)
@@ -57,39 +68,20 @@ MailMind 走的是另一条路线：
 - [下一步该看什么](#下一步该看什么)
 - [项目状态和边界](#项目状态和边界)
 
-## 快速开始：Demo Mode
+## 快速开始
 
-Demo mode 是最快的体验方式，不需要 Gmail credentials，也不需要付费 API 调用。
+如果你只是想先看产品效果，建议先跑 demo mode。它不需要 Gmail credentials，也不需要付费 API 调用。
 
-### 1）克隆并安装依赖
-
-Windows PowerShell:
-
-```powershell
-git clone https://github.com/Parsiffal1/Mailmind.git
-cd Mailmind
-
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
-
-Copy-Item .env.example .env
-```
-
-macOS/Linux:
+### 快速路径
 
 ```bash
 git clone https://github.com/Parsiffal1/Mailmind.git
 cd Mailmind
-
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-
 cp .env.example .env
 ```
-
-### 2）让 LLM provider 保持在 mock 模式
 
 在 `.env` 里设置：
 
@@ -97,21 +89,47 @@ cp .env.example .env
 MAILMIND_LLM_PROVIDER=mock
 ```
 
-### 3）构建 dashboard 并启动 API
+然后构建 dashboard 并启动 API：
+
+```bash
+cd dashboard
+npm install
+npm run build
+cd ..
+python -m mailmind.api
+```
+
+打开：
+
+```text
+http://127.0.0.1:8000/?demo=1
+```
+
+### Windows PowerShell
+
+```powershell
+git clone https://github.com/Parsiffal1/Mailmind.git
+cd Mailmind
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+Copy-Item .env.example .env
+```
+
+设置：
+
+```text
+MAILMIND_LLM_PROVIDER=mock
+```
+
+然后运行：
 
 ```powershell
 cd dashboard
 npm install
 npm run build
 cd ..
-
 python -m mailmind.api
-```
-
-### 4）打开 demo 页面
-
-```text
-http://127.0.0.1:8000/?demo=1
 ```
 
 ## 接入真实 Gmail

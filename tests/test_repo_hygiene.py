@@ -45,10 +45,30 @@ def test_readmes_surface_visual_demo_and_navigation():
         assert "docs/demo/gifs/documents_and_settings.gif" not in text
     assert "## Quick Navigation" in en
     assert "## 快速导航" in zh
+    assert "## Why It Feels Different" in en
+    assert "## 为什么它不一样" in zh
+    assert "## What You Get After One Refresh" in en
+    assert "## 一次刷新后你会得到什么" in zh
+    assert "## Quick Start" in en
+    assert "## 快速开始" in zh
     assert "## Who This Is For" not in en
     assert "## 适合谁使用" not in zh
     assert "## What This Project Is" not in en
     assert "## 这个项目是什么" not in zh
+
+
+def test_readmes_use_clean_real_gmail_examples():
+    en = read_text(REPO_ROOT / "README.md")
+    zh = read_text(REPO_ROOT / "README.zh.md")
+    for text in (en, zh):
+        assert "ANTHROPIC_API_KEY=your_anthropic_api_key" in text
+        assert "MAILMIND_GMAIL_CREDENTIALS=credentials.json" in text
+        assert "MAILMIND_GMAIL_TOKEN=token.json" in text
+        assert "TELEGRAM_BOT_TOKEN=your_telegram_bot_token" in text
+        assert "your_a..._key" not in text
+        assert "MAILMIND_GMAIL_CREDENTIALS=***" not in text
+        assert "MAILMIND_GMAIL_TOKEN=***" not in text
+        assert "TELEGRAM_BOT_TOKEN=your_t...oken" not in text
 
 
 def test_env_example_uses_clean_placeholder_values():

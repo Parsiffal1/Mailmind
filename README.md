@@ -12,7 +12,7 @@ MailMind is a local-first Gmail intelligence agent that turns a crowded inbox in
 
 It reads Gmail through the read-only Gmail API, extracts action items with an LLM, stores everything locally in SQLite, and gives you a dashboard, source-grounded AI search over email bodies and PDF attachments, Telegram reminders, and configurable privacy controls.
 
-## Project Overview
+## Why It Feels Different
 
 Most inbox tools either stop at simple rules or ask you to hand your mailbox to a hosted service.
 
@@ -21,8 +21,18 @@ MailMind takes a different route:
 - **Local-first by default**: database, attachments, and indexes stay on your machine.
 - **Structured task extraction**: deadlines, reply obligations, review items, and follow-ups are pulled out of noisy email threads.
 - **Source-grounded AI search**: answers come with supporting source cards instead of detached chatbot guesses.
-- **Complete engineering surface**: FastAPI, Next.js, SQLite, Gmail OAuth, scheduler jobs, Telegram actions, RAG, and privacy boundaries in one coherent project.
+- **One coherent product surface**: FastAPI, Next.js, SQLite, Gmail OAuth, scheduler jobs, Telegram actions, RAG, and privacy boundaries work together instead of living as separate demos.
 - **Public-demo friendly**: the repository includes synthetic demo assets so the product can be shown safely without exposing real inbox data.
+
+## What You Get After One Refresh
+
+```text
+Recent inbox activity
+  -> structured tasks with due dates and reply-needed flags
+  -> searchable email bodies and PDF attachments
+  -> source-backed answers to inbox questions
+  -> optional Telegram reminders and scheduled follow-ups
+```
 
 ## Core Capabilities
 
@@ -45,9 +55,10 @@ The checked-in screenshots do not contain real emails, OAuth tokens, API keys, o
 
 ## Quick Navigation
 
-- [Project Overview](#project-overview)
+- [Why It Feels Different](#why-it-feels-different)
+- [What You Get After One Refresh](#what-you-get-after-one-refresh)
 - [Core Capabilities](#core-capabilities)
-- [Quick Start: Demo Mode](#quick-start-demo-mode)
+- [Quick Start](#quick-start)
 - [Connect Real Gmail](#connect-real-gmail)
 - [Workflow at a Glance](#workflow-at-a-glance)
 - [AI Search and RAG](#ai-search-and-rag)
@@ -57,39 +68,20 @@ The checked-in screenshots do not contain real emails, OAuth tokens, API keys, o
 - [What To Read Next](#what-to-read-next)
 - [Project Status and Boundaries](#project-status-and-boundaries)
 
-## Quick Start: Demo Mode
+## Quick Start
 
-Demo mode is the fastest way to see the product without Gmail credentials or paid API calls.
+If you just want to see the product, use demo mode first. It does not require Gmail credentials or paid API calls.
 
-### 1) Clone and install
-
-Windows PowerShell:
-
-```powershell
-git clone https://github.com/Parsiffal1/Mailmind.git
-cd Mailmind
-
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
-
-Copy-Item .env.example .env
-```
-
-macOS/Linux:
+### Fast path
 
 ```bash
 git clone https://github.com/Parsiffal1/Mailmind.git
 cd Mailmind
-
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-
 cp .env.example .env
 ```
-
-### 2) Keep the LLM provider in mock mode
 
 Set this in `.env`:
 
@@ -97,21 +89,47 @@ Set this in `.env`:
 MAILMIND_LLM_PROVIDER=mock
 ```
 
-### 3) Build the dashboard and start the API
+Then build the dashboard and start the API:
+
+```bash
+cd dashboard
+npm install
+npm run build
+cd ..
+python -m mailmind.api
+```
+
+Open:
+
+```text
+http://127.0.0.1:8000/?demo=1
+```
+
+### Windows PowerShell
+
+```powershell
+git clone https://github.com/Parsiffal1/Mailmind.git
+cd Mailmind
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+Copy-Item .env.example .env
+```
+
+Set:
+
+```text
+MAILMIND_LLM_PROVIDER=mock
+```
+
+Then run:
 
 ```powershell
 cd dashboard
 npm install
 npm run build
 cd ..
-
 python -m mailmind.api
-```
-
-### 4) Open demo mode
-
-```text
-http://127.0.0.1:8000/?demo=1
 ```
 
 ## Connect Real Gmail
