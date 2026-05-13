@@ -8,22 +8,23 @@
 
 ![MailMind brand hero](docs/demo/gifs/mailmind_brand_hero.gif)
 
-MailMind 是一个 local-first 的 Gmail 智能助手，适合那些经常把 deadline、表格、附件、待回复事项和 follow-up 淹没在邮箱里的人。
+MailMind 是一个 local-first 的 Gmail 智能助手，可以把拥挤的邮箱转成任务系统、可搜索的信息层，以及带隐私边界的个人工作流。
 
-它通过 Gmail 只读 API 拉取邮件，用 LLM 提取行动项，把数据保存在本地 SQLite，并提供 dashboard、邮件与 PDF 附件的 AI Search、Telegram 提醒，以及带隐私边界的配置能力。
+它通过 Gmail 只读 API 拉取邮件，用 LLM 提取行动项，把数据保存在本地 SQLite，并提供 dashboard、基于邮件正文和 PDF 附件的 AI Search、Telegram 提醒，以及可配置的隐私控制。
 
-## 为什么是 MailMind
+## 项目概览
 
 很多邮箱工具要么只停留在规则筛选，要么要求你把整个邮箱交给托管服务。
 
 MailMind 走的是另一条路线：
 
 - **默认 local-first**：数据库、附件和索引都留在你的机器上。
-- **理解 Gmail 场景的任务抽取**：从杂乱的邮件线程里提取 deadline、待回复、待处理和待审核事项。
+- **结构化任务抽取**：从杂乱的邮件线程里提取 deadline、待回复、待处理和待审核事项。
 - **带来源依据的 AI Search**：回答会附上 source cards，而不是无依据的聊天式输出。
 - **完整的工程展示面**：FastAPI、Next.js、SQLite、Gmail OAuth、scheduler、Telegram、RAG 和隐私边界都放在同一个项目里闭环呈现。
+- **适合公开演示**：仓库内包含 synthetic demo assets，可以安全展示产品而不暴露真实邮箱数据。
 
-## 你可以用它做什么
+## 核心能力
 
 - 一键刷新 Gmail，把最近邮件转成结构化任务。
 - 跟踪 due date、priority、是否需要回复、是否需要复核。
@@ -35,61 +36,26 @@ MailMind 走的是另一条路线：
 
 ## 界面预览
 
-仓库内已经包含基于 synthetic sample data 生成的演示素材，因此 GitHub 首页展示的就是实际产品界面，而不是空壳示意图。
+仓库内已经包含基于 synthetic sample data 生成的演示素材，因此 GitHub 首页展示的是实际产品界面，而不是空壳示意图。
 
 ![任务总览](docs/demo/screenshots/01_tasks_overview.png)
 ![AI 搜索答案](docs/demo/screenshots/02_ai_search_answer.png)
-![已索引来源](docs/demo/screenshots/03_indexed_sources.png)
 
-## Demo GIF
-
-![MailMind AI search demo](docs/demo/gifs/hero_ai_search.gif)
-
-![MailMind documents and settings demo](docs/demo/gifs/documents_and_settings.gif)
-
-仓库里的 demo GIF 和截图都来自 sample 数据，不包含真实邮件、OAuth token、API key 或私人附件。
+仓库里的截图不包含真实邮件、OAuth token、API key 或私人附件。
 
 ## 快速导航
 
-- [这个项目是什么](#这个项目是什么)
-- [适合谁使用](#适合谁使用)
+- [项目概览](#项目概览)
+- [核心能力](#核心能力)
 - [快速开始：Demo Mode](#快速开始demo-mode)
 - [接入真实 Gmail](#接入真实-gmail)
-- [核心流程](#核心流程)
+- [流程概览](#流程概览)
 - [AI Search 和 RAG](#ai-search-和-rag)
 - [隐私模型](#隐私模型)
 - [可选服务](#可选服务)
 - [仓库结构](#仓库结构)
 - [下一步该看什么](#下一步该看什么)
 - [项目状态和边界](#项目状态和边界)
-
-## 这个项目是什么
-
-MailMind 是个人生产力工具，不是托管 SaaS。你在自己的电脑上运行它，连接自己的 Gmail OAuth desktop client，数据库、附件和搜索 index 都保存在本地。
-
-这个项目不是一个简单 chatbot demo，而是一个完整的开源 MVP：包含结构化抽取、显式隐私边界、source-grounded RAG、scheduler、可用的 dashboard，以及适合公开展示的 demo mode。
-
-## 适合谁使用
-
-MailMind 特别适合：
-
-- 经常收到学校、招聘、行政、财务、表格类邮件的人；
-- 想在 Gmail 之上加一层本地任务系统，但不想把邮箱交给托管服务的人；
-- 想学习一个端到端 LLM 工程项目的人；
-- 想要一个比普通 chatbot demo 更完整的作品集项目的人。
-
-它不适合作为开箱即用的多人 SaaS。Gmail restricted scope 如果要公开生产使用，需要完成 Google OAuth verification。
-
-## 一次典型刷新会发生什么
-
-```text
-Refresh
-  -> 通过只读 OAuth 拉取 Gmail
-  -> 在本地归一化邮件与附件
-  -> 用经过校验的 LLM 输出提取行动项
-  -> 更新任务视图和搜索索引
-  -> 用检索到的来源回答 inbox 问题
-```
 
 ## 快速开始：Demo Mode
 
@@ -177,7 +143,16 @@ python -m mailmind.api
 
 打开 `http://127.0.0.1:8000`，点击 `Refresh`，完成浏览器 OAuth 授权。第一次登录成功后，MailMind 会在本地写入 `token.json`。
 
-## 核心流程
+## 流程概览
+
+```text
+Refresh
+  -> 通过只读 OAuth 拉取 Gmail
+  -> 在本地归一化邮件与附件
+  -> 用经过校验的 LLM 输出提取行动项
+  -> 更新任务视图和搜索索引
+  -> 用检索到的来源回答 inbox 问题
+```
 
 ```text
 Gmail readonly OAuth
@@ -252,7 +227,7 @@ dashboard/         Next.js dashboard，静态导出后由 FastAPI 托管
 prompts/           Claude task extraction 和 RAG answer prompts
 tests/             parser、database、API、extraction、RAG、privacy 的测试
 scripts/           demo asset 生成、RAG evaluation、GitHub 发布辅助脚本
-docs/              demo flow、PII 架构、README GIF 和截图
+docs/              demo flow、PII 架构、README 资源和截图
 eval/              RAG evaluation seed file 和评估报告
 ```
 

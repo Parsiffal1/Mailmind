@@ -39,9 +39,16 @@ def test_readmes_surface_visual_demo_and_navigation():
     for text in (en, zh):
         assert "docs/demo/gifs/mailmind_brand_hero.gif" in text
         assert "docs/demo/screenshots/01_tasks_overview.png" in text
-        assert "docs/demo/gifs/hero_ai_search.gif" in text
+        assert "docs/demo/screenshots/02_ai_search_answer.png" in text
+        assert "docs/demo/screenshots/03_indexed_sources.png" not in text
+        assert "docs/demo/gifs/hero_ai_search.gif" not in text
+        assert "docs/demo/gifs/documents_and_settings.gif" not in text
     assert "## Quick Navigation" in en
     assert "## 快速导航" in zh
+    assert "## Who This Is For" not in en
+    assert "## 适合谁使用" not in zh
+    assert "## What This Project Is" not in en
+    assert "## 这个项目是什么" not in zh
 
 
 def test_env_example_uses_clean_placeholder_values():

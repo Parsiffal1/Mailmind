@@ -8,22 +8,23 @@
 
 ![MailMind brand hero](docs/demo/gifs/mailmind_brand_hero.gif)
 
-MailMind is a local-first Gmail intelligence agent for people who lose deadlines, forms, attachments, and follow-ups inside a crowded inbox.
+MailMind is a local-first Gmail intelligence agent that turns a crowded inbox into a task system, a searchable knowledge layer, and a privacy-aware personal workflow.
 
-It reads Gmail through the read-only Gmail API, extracts action items with an LLM, keeps data in local SQLite, and gives you a dashboard, AI search over email bodies and PDF attachments, Telegram reminders, and privacy-aware controls.
+It reads Gmail through the read-only Gmail API, extracts action items with an LLM, stores everything locally in SQLite, and gives you a dashboard, source-grounded AI search over email bodies and PDF attachments, Telegram reminders, and configurable privacy controls.
 
-## Why MailMind
+## Project Overview
 
 Most inbox tools either stop at simple rules or ask you to hand your mailbox to a hosted service.
 
 MailMind takes a different route:
 
 - **Local-first by default**: database, attachments, and indexes stay on your machine.
-- **Gmail-aware task extraction**: deadlines, reply obligations, review items, and follow-ups are pulled out of noisy email threads.
+- **Structured task extraction**: deadlines, reply obligations, review items, and follow-ups are pulled out of noisy email threads.
 - **Source-grounded AI search**: answers come with supporting source cards instead of detached chatbot guesses.
-- **Portfolio-grade engineering surface**: FastAPI, Next.js, SQLite, Gmail OAuth, scheduler jobs, Telegram actions, RAG, and privacy boundaries in one coherent project.
+- **Complete engineering surface**: FastAPI, Next.js, SQLite, Gmail OAuth, scheduler jobs, Telegram actions, RAG, and privacy boundaries in one coherent project.
+- **Public-demo friendly**: the repository includes synthetic demo assets so the product can be shown safely without exposing real inbox data.
 
-## What You Can Do With It
+## Core Capabilities
 
 - Refresh Gmail and turn recent emails into structured tasks.
 - Track due dates, priorities, reply-needed flags, and review-needed flags.
@@ -33,63 +34,28 @@ MailMind takes a different route:
 - Choose between raw LLM calls and privacy-aware PII rehydration.
 - Demo the whole product safely with synthetic sample data.
 
-## What It Looks Like
+## Interface Preview
 
-MailMind ships with checked-in demo assets generated from synthetic sample data, so the public repo can show the actual product surface without exposing real inbox content.
+MailMind ships with checked-in demo assets generated from synthetic sample data, so the public repo can show the real product surface without exposing real inbox content.
 
 ![Tasks overview](docs/demo/screenshots/01_tasks_overview.png)
 ![AI search answer](docs/demo/screenshots/02_ai_search_answer.png)
-![Indexed sources](docs/demo/screenshots/03_indexed_sources.png)
 
-## Demo GIFs
-
-![MailMind AI search demo](docs/demo/gifs/hero_ai_search.gif)
-
-![MailMind documents and settings demo](docs/demo/gifs/documents_and_settings.gif)
-
-The checked-in demo GIFs and screenshots do not contain real emails, OAuth tokens, API keys, or private attachments.
+The checked-in screenshots do not contain real emails, OAuth tokens, API keys, or private attachments.
 
 ## Quick Navigation
 
-- [What This Project Is](#what-this-project-is)
-- [Who This Is For](#who-this-is-for)
+- [Project Overview](#project-overview)
+- [Core Capabilities](#core-capabilities)
 - [Quick Start: Demo Mode](#quick-start-demo-mode)
 - [Connect Real Gmail](#connect-real-gmail)
-- [Core Workflow](#core-workflow)
+- [Workflow at a Glance](#workflow-at-a-glance)
 - [AI Search and RAG](#ai-search-and-rag)
 - [Privacy Model](#privacy-model)
 - [Run Optional Services](#run-optional-services)
 - [Repository Structure](#repository-structure)
 - [What To Read Next](#what-to-read-next)
 - [Project Status and Boundaries](#project-status-and-boundaries)
-
-## What This Project Is
-
-MailMind is a personal productivity system, not a hosted SaaS. You run it on your own machine, connect your own Gmail OAuth desktop client, and keep the database, attachments, and search index local.
-
-The project is designed as a serious open-source MVP with production-style decisions: validated LLM outputs, explicit privacy boundaries, source-grounded RAG, scheduler jobs, a usable dashboard, and a safe demo mode for public walkthroughs.
-
-## Who This Is For
-
-MailMind is a strong fit if you:
-
-- receive school, recruiting, admin, finance, or form-heavy emails;
-- want a local task layer on top of Gmail without giving a hosted app broad mailbox access;
-- want to study an end-to-end LLM application with Gmail OAuth, FastAPI, SQLite, Next.js, Telegram, RAG, and privacy controls;
-- want a portfolio project that goes beyond a basic chatbot demo.
-
-It is not meant for multi-user SaaS deployment out of the box. Gmail restricted scopes require Google verification before public production use.
-
-## A Typical Refresh Cycle
-
-```text
-Refresh
-  -> poll Gmail through read-only OAuth
-  -> normalize emails and attachments locally
-  -> extract action items with validated LLM output
-  -> update task views and search indexes
-  -> answer inbox questions with retrieved sources
-```
 
 ## Quick Start: Demo Mode
 
@@ -177,7 +143,16 @@ python -m mailmind.api
 
 Open `http://127.0.0.1:8000`, click `Refresh`, and complete the browser OAuth flow. MailMind writes `token.json` locally after the first successful login.
 
-## Core Workflow
+## Workflow at a Glance
+
+```text
+Refresh
+  -> poll Gmail through read-only OAuth
+  -> normalize emails and attachments locally
+  -> extract action items with validated LLM output
+  -> update task views and search indexes
+  -> answer inbox questions with retrieved sources
+```
 
 ```text
 Gmail readonly OAuth
@@ -252,7 +227,7 @@ dashboard/         Next.js dashboard exported and served by FastAPI
 prompts/           Claude prompt files for task extraction and RAG answers
 tests/             Unit tests for parser, database, API, extraction, RAG, privacy
 scripts/           Demo asset generation, RAG evaluation, GitHub publishing helper
-docs/              Demo flow, PII architecture, README GIFs and screenshots
+docs/              Demo flow, PII architecture, README assets and screenshots
 eval/              Small RAG evaluation seed file and evaluation report
 ```
 
