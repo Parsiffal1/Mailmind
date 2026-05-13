@@ -1008,6 +1008,7 @@ class LangChainRagIndex:
             temperature=0,
             max_tokens=700,
         )
+        joined_context_blocks = "\n\n".join(context_blocks)
         response = llm.invoke(
             [
                 SystemMessage(content=system_prompt),
@@ -1016,7 +1017,7 @@ class LangChainRagIndex:
                         "Question:\n"
                         f"{safe_question}\n\n"
                         "Retrieved MailMind sources from email bodies and PDF attachments:\n"
-                        f"{'\n\n'.join(context_blocks)}"
+                        f"{joined_context_blocks}"
                     )
                 ),
             ]

@@ -2,6 +2,10 @@
 
 [English](README.md) | [中文](README.zh.md)
 
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+![Local-first](https://img.shields.io/badge/Architecture-Local--first-blue)
+![Gmail](https://img.shields.io/badge/Gmail-Read--only%20OAuth-red)
+
 ![MailMind brand hero](docs/demo/gifs/mailmind_brand_hero.gif)
 
 MailMind 是一个 local-first 的 Gmail 智能助手，面向那些经常把任务、deadline、表格、附件和 follow-up 淹没在邮箱里的人。
@@ -207,8 +211,8 @@ eval/              RAG evaluation seed file 和评估报告
 - Demo walkthrough: [docs/DEMO_FLOW.md](docs/DEMO_FLOW.md)
 - PII architecture: [docs/PII_ARCHITECTURE.md](docs/PII_ARCHITECTURE.md)
 - Security notes: [SECURITY.md](SECURITY.md)
-- Contribution guide: [CONTRIBUTING.md](CONTRIBUTING.md)
 - Demo assets: [docs/demo/GITHUB_ASSETS.md](docs/demo/GITHUB_ASSETS.md)
+- Brand GIF storyboard: [docs/demo/MAILMIND_BRAND_GIF_STORYBOARD.md](docs/demo/MAILMIND_BRAND_GIF_STORYBOARD.md)
 
 ## RAG Evaluation
 
@@ -236,9 +240,9 @@ MailMind 是一个可以本地运行的 MVP，适合个人使用、作品集展�
 
 ## 社区协作
 
-欢迎 issue 和 pull request。适合优先贡献的方向包括文档修正、新测试、retrieval evaluation cases、UI polish 和更安全的 setup automation。
+欢迎 issue 和 pull request。适合优先改进的方向包括文档修正、retrieval evaluation cases、UI polish、setup automation，以及更安全的本地隐私默认配置。
 
-请不要在 issue 里贴真实邮件内容、OAuth token、API key 或私人附件。
+请不要在 issue 里贴真实邮件内容、OAuth token、API key 或私人附件。提问题前优先使用 `.github/ISSUE_TEMPLATE/` 中的模板；如果涉及敏感复现信息，请先阅读 [SECURITY.md](SECURITY.md)。
 
 ## License
 

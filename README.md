@@ -2,6 +2,10 @@
 
 [English](README.md) | [中文](README.zh.md)
 
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+![Local-first](https://img.shields.io/badge/Architecture-Local--first-blue)
+![Gmail](https://img.shields.io/badge/Gmail-Read--only%20OAuth-red)
+
 ![MailMind brand hero](docs/demo/gifs/mailmind_brand_hero.gif)
 
 MailMind is a local-first Gmail intelligence agent for people who lose tasks, deadlines, forms, and follow-ups inside a busy inbox.
@@ -207,8 +211,8 @@ eval/              Small RAG evaluation seed file and evaluation report
 - Demo walkthrough: [docs/DEMO_FLOW.md](docs/DEMO_FLOW.md)
 - PII architecture: [docs/PII_ARCHITECTURE.md](docs/PII_ARCHITECTURE.md)
 - Security notes: [SECURITY.md](SECURITY.md)
-- Contribution guide: [CONTRIBUTING.md](CONTRIBUTING.md)
 - Demo assets: [docs/demo/GITHUB_ASSETS.md](docs/demo/GITHUB_ASSETS.md)
+- Brand GIF storyboard: [docs/demo/MAILMIND_BRAND_GIF_STORYBOARD.md](docs/demo/MAILMIND_BRAND_GIF_STORYBOARD.md)
 
 ## RAG Evaluation
 
@@ -236,9 +240,9 @@ Current boundaries:
 
 ## Community
 
-Issues and pull requests are welcome. Good first contributions include documentation fixes, new tests, retrieval evaluation cases, UI polish, and safer setup automation.
+Issues and pull requests are welcome. Good first improvements include documentation fixes, retrieval evaluation cases, UI polish, setup automation, and safer local privacy defaults.
 
-Please do not post real email content, OAuth tokens, API keys, or private attachments in issues.
+Please do not post real email content, OAuth tokens, API keys, or private attachments in issues. Use the issue templates in `.github/ISSUE_TEMPLATE/`, and read [SECURITY.md](SECURITY.md) before sharing any sensitive reproduction details.
 
 ## License
 

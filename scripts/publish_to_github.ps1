@@ -1,7 +1,7 @@
 param(
     [string]$RemoteUrl = "https://github.com/Parsiffal1/Mailmind.git",
     [string]$Branch = "main",
-    [string]$Message = "Initial MailMind open-source release"
+    [string]$Message = "chore: publish MailMind repo"
 )
 
 $ErrorActionPreference = "Stop"
@@ -36,11 +36,12 @@ foreach ($path in $forbidden) {
 }
 
 $secretPatterns = @(
-    "ANTHROPIC_API_KEY\s*=\s*\S+",
-    "TELEGRAM_BOT_TOKEN=\d",
-    ("sk" + "-ant"),
-    ("xo" + "xb"),
-    ("AI" + "za"),
+    "ANTHROPIC_API_KEY\s*=\s*.+",
+    "VOYAGE_API_KEY\s*=\s*.+",
+    "TELEGRAM_BOT_TOKEN\s*=\s*.+",
+    "sk-ant-",
+    "xoxb-",
+    "AIza",
     "private_key",
     '"refresh_token"\s*:'
 )
@@ -80,7 +81,6 @@ git add `
     README.zh.md `
     README.zh-CN.md `
     SECURITY.md `
-    CONTRIBUTING.md `
     pytest.ini `
     requirements.txt `
     .github `

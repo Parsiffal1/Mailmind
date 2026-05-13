@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security and privacy guidance
+    url: https://github.com/Parsiffal1/Mailmind/blob/main/SECURITY.md
+    about: Read this before posting anything that could include private email content, OAuth credentials, or API keys.
+  - name: Demo walkthrough
+    url: https://github.com/Parsiffal1/Mailmind/blob/main/docs/DEMO_FLOW.md
+    about: See the demo flow before filing product or UX questions.
