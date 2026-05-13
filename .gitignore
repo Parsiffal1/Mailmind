@@ -1,0 +1,42 @@
+# Secrets and local credentials
+.env
+.env.*
+!.env.example
+credentials.json
+token.json
+client_secret*.json
+
+# Local runtime data
+data/
+attachments/
+chroma/
+*.db
+*.sqlite
+*.sqlite3
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# Node / Next.js
+dashboard/node_modules/
+dashboard/.next/
+dashboard/out/
+dashboard/dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Local publication bundles
+release/

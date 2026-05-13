@@ -1,0 +1,14 @@
+[
+  {
+    "question": "What does the SSN verification document say?",
+    "expected_sources": ["Housing_Verification_Form.pdf"]
+  },
+  {
+    "question": "Which email mentions earning $50 per accepted submission?",
+    "expected_sources": ["Reminder: You could earn $50 per accepted submission"]
+  },
+  {
+    "question": "Find UCLA MQE webinar related emails.",
+    "expected_sources": ["Explore UCLA MQE"]
+  }
+]
