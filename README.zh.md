@@ -243,7 +243,3 @@ MailMind 是一个可以本地运行的 MVP，适合个人使用、作品集展�
 ## License
 
 MIT
-
-## 简历描述
-
-Built a local-first Gmail intelligence agent that polls Gmail through the read-only Gmail API, extracts action items and deadlines from unstructured email text using an LLM with Pydantic validation, stores normalized tasks in SQLite, and sends proactive reminders through a Telegram bot. Added a Next.js/FastAPI dashboard and an email/PDF RAG system with structure-aware chunking, parent-child retrieval, local BGE-M3 embeddings, ChromaDB, SQLite FTS5 BM25 hybrid search, reranking, Claude source-grounded answers, and PII placeholder rehydration.

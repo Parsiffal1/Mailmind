@@ -1,29 +1,17 @@
-# MailMind
+﻿# MailMind
 
-[English](README.md) | [中文](README.zh.md)
+[English](README.md) | [涓枃](README.zh.md)
 
 > This file is kept for compatibility. The canonical Chinese README is [README.zh.md](README.zh.md).
 
 ![MailMind brand hero](docs/demo/gifs/mailmind_brand_hero.gif)
 
-MailMind 是一个 local-first 的 Gmail 智能助手。它把个人邮箱里的邮件转换成结构化任务、可搜索知识和带隐私保护的 AI 回答。项目使用 Gmail 只读 API、Claude 或 mock provider 提取任务和 deadline，用 SQLite 本地保存数据，通过 FastAPI + Next.js 提供 dashboard，也可以通过 Telegram 发送提醒。
+MailMind 鏄竴涓?local-first 鐨?Gmail 鏅鸿兘鍔╂墜銆傚畠鎶婁釜浜洪偖绠遍噷鐨勯偖浠惰浆鎹㈡垚缁撴瀯鍖栦换鍔°€佸彲鎼滅储鐭ヨ瘑鍜屽甫闅愮淇濇姢鐨?AI 鍥炵瓟銆傞」鐩娇鐢?Gmail 鍙 API銆丆laude 鎴?mock provider 鎻愬彇浠诲姟鍜?deadline锛岀敤 SQLite 鏈湴淇濆瓨鏁版嵁锛岄€氳繃 FastAPI + Next.js 鎻愪緵 dashboard锛屼篃鍙互閫氳繃 Telegram 鍙戦€佹彁閱掋€?
+MailMind 鏄湰鍦板紑婧愯蒋浠讹紝涓嶆槸鎵樼 SaaS銆備换浣曚汉閮藉彲浠?clone 鍚庢湰鍦拌繍琛屻€傜湡瀹炴帴鍏?Gmail 鏃讹紝姣忎釜鐢ㄦ埛闇€瑕佸垱寤鸿嚜宸辩殑 Google OAuth desktop client锛屽洜涓?Gmail `gmail.readonly` 灞炰簬 restricted scope銆?
+## 鍔熻兘
 
-MailMind 是本地开源软件，不是托管 SaaS。任何人都可以 clone 后本地运行。真实接入 Gmail 时，每个用户需要创建自己的 Google OAuth desktop client，因为 Gmail `gmail.readonly` 属于 restricted scope。
-
-## 功能
-
-- Gmail 只读 OAuth，本地浏览器授权。
-- LLM 任务提取，使用 Pydantic 校验结构化输出。
-- SQLite 保存 emails、tasks、attachments、processing logs 和 settings。
-- 一键 Refresh：拉取 Gmail、提取任务、刷新 dashboard、更新启用的 AI search index。
-- Telegram bot：`/list`、`/today`、`/done <id>`、`/search <keyword>`、`/poll`。
-- APScheduler worker：可选定时 polling、daily digest、deadline reminders。
-- Next.js dashboard，静态导出后由 FastAPI 托管。
-- AI search 支持邮件正文和 PDF 附件，使用本地 BGE-M3 embedding、ChromaDB、SQLite FTS5 BM25 hybrid search、parent-child retrieval、reranking 和 Claude source-grounded answers。
-- PII Guard 支持 `off` 和 `rehydrated` 两种模式。`rehydrated` 会先把 PII 替换为 placeholder 发给 Claude，再在本地恢复给用户看。
-- sample/demo mode：无需 Gmail credentials，也能查看 dashboard 和 README 展示素材。
-
-## 架构
+- Gmail 鍙 OAuth锛屾湰鍦版祻瑙堝櫒鎺堟潈銆?- LLM 浠诲姟鎻愬彇锛屼娇鐢?Pydantic 鏍￠獙缁撴瀯鍖栬緭鍑恒€?- SQLite 淇濆瓨 emails銆乼asks銆乤ttachments銆乸rocessing logs 鍜?settings銆?- 涓€閿?Refresh锛氭媺鍙?Gmail銆佹彁鍙栦换鍔°€佸埛鏂?dashboard銆佹洿鏂板惎鐢ㄧ殑 AI search index銆?- Telegram bot锛歚/list`銆乣/today`銆乣/done <id>`銆乣/search <keyword>`銆乣/poll`銆?- APScheduler worker锛氬彲閫夊畾鏃?polling銆乨aily digest銆乨eadline reminders銆?- Next.js dashboard锛岄潤鎬佸鍑哄悗鐢?FastAPI 鎵樼銆?- AI search 鏀寔閭欢姝ｆ枃鍜?PDF 闄勪欢锛屼娇鐢ㄦ湰鍦?BGE-M3 embedding銆丆hromaDB銆丼QLite FTS5 BM25 hybrid search銆乸arent-child retrieval銆乺eranking 鍜?Claude source-grounded answers銆?- PII Guard 鏀寔 `off` 鍜?`rehydrated` 涓ょ妯″紡銆俙rehydrated` 浼氬厛鎶?PII 鏇挎崲涓?placeholder 鍙戠粰 Claude锛屽啀鍦ㄦ湰鍦版仮澶嶇粰鐢ㄦ埛鐪嬨€?- sample/demo mode锛氭棤闇€ Gmail credentials锛屼篃鑳芥煡鐪?dashboard 鍜?README 灞曠ず绱犳潗銆?
+## 鏋舵瀯
 
 ```text
 Gmail API read-only OAuth
@@ -40,10 +28,9 @@ FastAPI backend + SQLite
         +--> APScheduler worker + Telegram bot
 ```
 
-## 快速开始：Demo Mode
+## 蹇€熷紑濮嬶細Demo Mode
 
-Demo mode 使用 sample 数据，不需要 Gmail credentials、Telegram credentials 或 Claude key。
-
+Demo mode 浣跨敤 sample 鏁版嵁锛屼笉闇€瑕?Gmail credentials銆乀elegram credentials 鎴?Claude key銆?
 ```powershell
 git clone https://github.com/Parsiffal1/Mailmind.git
 cd Mailmind
@@ -68,13 +55,13 @@ pip install -r requirements.txt
 cp .env.example .env
 ```
 
-在 `.env` 里设置：
+鍦?`.env` 閲岃缃細
 
 ```text
 MAILMIND_LLM_PROVIDER=mock
 ```
 
-构建并运行：
+鏋勫缓骞惰繍琛岋細
 
 ```powershell
 cd dashboard
@@ -85,24 +72,15 @@ cd ..
 python -m mailmind.api
 ```
 
-打开：
-
+鎵撳紑锛?
 ```text
 http://127.0.0.1:8000/?demo=1
 ```
 
-## 快速开始：真实 Gmail
+## 蹇€熷紑濮嬶細鐪熷疄 Gmail
 
-1. 打开 Google Cloud Console。
-2. 创建或选择一个项目。
-3. 启用 Gmail API。
-4. 配置 Google Auth Platform consent screen，个人项目可使用 external testing。
-5. 创建 OAuth client ID，类型选择 `Desktop app`。
-6. 下载 OAuth client JSON，保存到项目根目录并命名为 `credentials.json`。
-7. 在 Google Auth Platform 里把自己的 Gmail 加为 test user。
-
-然后配置 `.env`：
-
+1. 鎵撳紑 Google Cloud Console銆?2. 鍒涘缓鎴栭€夋嫨涓€涓」鐩€?3. 鍚敤 Gmail API銆?4. 閰嶇疆 Google Auth Platform consent screen锛屼釜浜洪」鐩彲浣跨敤 external testing銆?5. 鍒涘缓 OAuth client ID锛岀被鍨嬮€夋嫨 `Desktop app`銆?6. 涓嬭浇 OAuth client JSON锛屼繚瀛樺埌椤圭洰鏍圭洰褰曞苟鍛藉悕涓?`credentials.json`銆?7. 鍦?Google Auth Platform 閲屾妸鑷繁鐨?Gmail 鍔犱负 test user銆?
+鐒跺悗閰嶇疆 `.env`锛?
 ```text
 MAILMIND_LLM_PROVIDER=anthropic
 ANTHROPIC_API_KEY=your_anthropic_key
@@ -112,31 +90,26 @@ MAILMIND_POLL_QUERY=newer_than:14d
 MAILMIND_POLL_LIMIT=40
 ```
 
-运行 API：
-
+杩愯 API锛?
 ```powershell
 python -m mailmind.api
 ```
 
-打开 `http://127.0.0.1:8000`，点击 `Refresh`，完成浏览器 OAuth 授权。第一次成功登录后，MailMind 会把 `token.json` 写在本地。
+鎵撳紑 `http://127.0.0.1:8000`锛岀偣鍑?`Refresh`锛屽畬鎴愭祻瑙堝櫒 OAuth 鎺堟潈銆傜涓€娆℃垚鍔熺櫥褰曞悗锛孧ailMind 浼氭妸 `token.json` 鍐欏湪鏈湴銆?
+## Worker 鍜?Telegram Bot
 
-## Worker 和 Telegram Bot
-
-只做手动刷新和 dashboard demo 时，启动 API 就够了。
-
-可选启动 scheduler worker：
-
+鍙仛鎵嬪姩鍒锋柊鍜?dashboard demo 鏃讹紝鍚姩 API 灏卞浜嗐€?
+鍙€夊惎鍔?scheduler worker锛?
 ```powershell
 python -m mailmind.worker
 ```
 
-可选启动 Telegram bot：
-
+鍙€夊惎鍔?Telegram bot锛?
 ```powershell
 python -m mailmind.bot
 ```
 
-Telegram 需要：
+Telegram 闇€瑕侊細
 
 ```text
 TELEGRAM_BOT_TOKEN=your_bot_token
@@ -144,10 +117,9 @@ TELEGRAM_CHAT_ID=your_chat_id
 MAILMIND_TELEGRAM_NOTIFICATIONS_ENABLED=true
 ```
 
-## 配置
+## 閰嶇疆
 
-主要配置在 `.env` 中，也可以通过 dashboard settings 页面修改。
-
+涓昏閰嶇疆鍦?`.env` 涓紝涔熷彲浠ラ€氳繃 dashboard settings 椤甸潰淇敼銆?
 ```text
 MAILMIND_DB_PATH=data/mailmind.db
 MAILMIND_POLL_QUERY=newer_than:14d
@@ -171,38 +143,21 @@ MAILMIND_PII_ENABLED=true
 MAILMIND_PII_MODE=rehydrated
 ```
 
-第一次本地 embedding 会通过 `sentence-transformers` 下载 `BAAI/bge-m3`。如果开启 reranking，第一次 rerank 查询会下载 `BAAI/bge-reranker-base`。
+绗竴娆℃湰鍦?embedding 浼氶€氳繃 `sentence-transformers` 涓嬭浇 `BAAI/bge-m3`銆傚鏋滃紑鍚?reranking锛岀涓€娆?rerank 鏌ヨ浼氫笅杞?`BAAI/bge-reranker-base`銆?
+## AI Search 鍜?RAG
 
-## AI Search 和 RAG
+MailMind 鍙互绱㈠紩锛?
+- Gmail 閭欢姝ｆ枃銆?- text-layer PDF 闄勪欢銆?- 涓よ€呭悓鏃跺惎鐢ㄣ€?
+妫€绱㈡祦绋嬶細
 
-MailMind 可以索引：
-
-- Gmail 邮件正文。
-- text-layer PDF 附件。
-- 两者同时启用。
-
-检索流程：
-
-1. 邮件/PDF structure-aware chunking。
-2. child chunk 用于 embedding 和 search。
-3. parent context 用于最终发送给 Claude。
-4. Chroma vector retrieval，本地 BGE-M3 embedding。
-5. SQLite FTS5 BM25 keyword retrieval。
-6. RRF-style fusion、reranking、source grouping、dedupe 和 score aggregation。
-7. Claude 基于 source-labeled context 回答。
-
+1. 閭欢/PDF structure-aware chunking銆?2. child chunk 鐢ㄤ簬 embedding 鍜?search銆?3. parent context 鐢ㄤ簬鏈€缁堝彂閫佺粰 Claude銆?4. Chroma vector retrieval锛屾湰鍦?BGE-M3 embedding銆?5. SQLite FTS5 BM25 keyword retrieval銆?6. RRF-style fusion銆乺eranking銆乻ource grouping銆乨edupe 鍜?score aggregation銆?7. Claude 鍩轰簬 source-labeled context 鍥炵瓟銆?
 ## PII Guard
 
-MailMind 支持两条隐私路线：
-
-- `off`：Claude 直接看到原文。
-- `rehydrated`：MailMind 先把 PII 替换成 placeholder，再发送给 Claude，最后在本地恢复答案。
-
-PII Guard 覆盖 email、phone、SSN、ID-like values、account-like numbers、API keys/tokens/secrets 和保守英文姓名检测。日期默认保留，避免影响 deadline extraction 和 RAG answer。
-
-这只是隐私风险缓解，不是合规认证。本地 SQLite、下载附件、Chroma index 和 FTS index 不会被全局脱敏。
-
-## Demo 素材
+MailMind 鏀寔涓ゆ潯闅愮璺嚎锛?
+- `off`锛欳laude 鐩存帴鐪嬪埌鍘熸枃銆?- `rehydrated`锛歁ailMind 鍏堟妸 PII 鏇挎崲鎴?placeholder锛屽啀鍙戦€佺粰 Claude锛屾渶鍚庡湪鏈湴鎭㈠绛旀銆?
+PII Guard 瑕嗙洊 email銆乸hone銆丼SN銆両D-like values銆乤ccount-like numbers銆丄PI keys/tokens/secrets 鍜屼繚瀹堣嫳鏂囧鍚嶆娴嬨€傛棩鏈熼粯璁や繚鐣欙紝閬垮厤褰卞搷 deadline extraction 鍜?RAG answer銆?
+杩欏彧鏄殣绉侀闄╃紦瑙ｏ紝涓嶆槸鍚堣璁よ瘉銆傛湰鍦?SQLite銆佷笅杞介檮浠躲€丆hroma index 鍜?FTS index 涓嶄細琚叏灞€鑴辨晱銆?
+## Demo 绱犳潗
 
 ![MailMind AI search demo](docs/demo/gifs/hero_ai_search.gif)
 
@@ -210,8 +165,7 @@ PII Guard 覆盖 email、phone、SSN、ID-like values、account-like numbers、A
 - GitHub assets: [docs/demo/GITHUB_ASSETS.md](docs/demo/GITHUB_ASSETS.md)
 - Brand storyboard: [docs/demo/MAILMIND_BRAND_GIF_STORYBOARD.md](docs/demo/MAILMIND_BRAND_GIF_STORYBOARD.md)
 
-重新生成截图和 GIF：
-
+閲嶆柊鐢熸垚鎴浘鍜?GIF锛?
 ```powershell
 node scripts\capture_demo_screenshots.mjs
 python scripts\create_demo_gifs.py
@@ -220,37 +174,30 @@ python scripts\create_brand_hero_gif.py
 
 ## RAG Evaluation
 
-把评估问题加入 `eval/rag_eval.json` 后运行：
+鎶婅瘎浼伴棶棰樺姞鍏?`eval/rag_eval.json` 鍚庤繍琛岋細
 
 ```powershell
 python scripts\eval_rag.py --mode vector --top-k 4
 python scripts\eval_rag.py --mode hybrid --top-k 4
 ```
 
-评估脚本会输出 source recall 和检索到的 source labels。synthetic/hard-negative evaluator 会创建临时本地 index，生成的 index 数据不要提交到 GitHub。
+璇勪及鑴氭湰浼氳緭鍑?source recall 鍜屾绱㈠埌鐨?source labels銆俿ynthetic/hard-negative evaluator 浼氬垱寤轰复鏃舵湰鍦?index锛岀敓鎴愮殑 index 鏁版嵁涓嶈鎻愪氦鍒?GitHub銆?
+## 瀹夊叏璇存槑
 
-## 安全说明
-
-不要提交：
-
+涓嶈鎻愪氦锛?
 - `.env`
 - `credentials.json`
 - `token.json`
 - `data/`
 - `attachments/`
 - `chroma/`
-- 本地数据库文件
-
-Gmail `gmail.readonly` 是 restricted OAuth scope。本项目面向本地个人使用。如果你把它做成公开托管产品，需要处理 Google OAuth verification、隐私政策、用户数据删除和可能的安全评估。
-
-## 技术栈
+- 鏈湴鏁版嵁搴撴枃浠?
+Gmail `gmail.readonly` 鏄?restricted OAuth scope銆傛湰椤圭洰闈㈠悜鏈湴涓汉浣跨敤銆傚鏋滀綘鎶婂畠鍋氭垚鍏紑鎵樼浜у搧锛岄渶瑕佸鐞?Google OAuth verification銆侀殣绉佹斂绛栥€佺敤鎴锋暟鎹垹闄ゅ拰鍙兘鐨勫畨鍏ㄨ瘎浼般€?
+## 鎶€鏈爤
 
 Python, FastAPI, SQLite, APScheduler, Telegram Bot API, Gmail API, Google OAuth, Anthropic Claude, Pydantic, Next.js, React, LangChain, ChromaDB, sentence-transformers, BGE-M3, SQLite FTS5, pdfplumber.
-
-## 简历描述
-
-Built a local-first Gmail intelligence agent that polls Gmail through the read-only Gmail API, extracts action items and deadlines from unstructured email text using an LLM with Pydantic validation, stores normalized tasks in SQLite, and sends proactive reminders through a Telegram bot. Added a Next.js/FastAPI dashboard and an email/PDF RAG system with structure-aware chunking, parent-child retrieval, local BGE-M3 embeddings, ChromaDB, SQLite FTS5 BM25 hybrid search, reranking, Claude source-grounded answers, and PII placeholder rehydration.
 
 ## License
 
 MIT
+
