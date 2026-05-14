@@ -9,21 +9,23 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #060a12;
-      --panel: rgba(10, 16, 28, 0.88);
-      --panel-2: rgba(14, 21, 36, 0.92);
-      --line: rgba(157, 189, 255, 0.10);
-      --soft: rgba(194, 215, 255, 0.78);
-      --muted: rgba(187, 205, 238, 0.52);
-      --dim: rgba(187, 205, 238, 0.22);
+      --bg0: #050810;
+      --bg1: #09111e;
+      --panel: rgba(10, 17, 29, 0.9);
+      --panel2: rgba(16, 24, 40, 0.94);
+      --line: rgba(158, 190, 255, 0.12);
+      --line-soft: rgba(158, 190, 255, 0.06);
+      --ink: rgba(240, 246, 255, 0.95);
+      --soft: rgba(201, 217, 244, 0.76);
+      --muted: rgba(176, 197, 232, 0.54);
+      --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+      --sans: "Inter", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
       --accent: #7dd3fc;
-      --accent-2: #60a5fa;
+      --accent2: #60a5fa;
       --green: #5eead4;
       --amber: #fbbf24;
-      --red: #fb7185;
       --violet: #a78bfa;
-      --mono: "JetBrains Mono", "SF Mono", ui-monospace, monospace;
-      --sans: "Inter", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      --red: #fb7185;
     }
     * { box-sizing: border-box; }
     html, body {
@@ -32,50 +34,83 @@
       height: 100%;
       overflow: hidden;
       background: #000;
-      color: white;
+      color: #fff;
       font-family: var(--sans);
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
     }
     .stage {
       position: fixed;
-      top: 50%; left: 50%;
-      width: 1920px; height: 1080px;
+      top: 50%;
+      left: 50%;
+      width: 1920px;
+      height: 1080px;
       transform: translate(-50%, -50%);
       overflow: hidden;
       background:
-        radial-gradient(circle at 18% 24%, rgba(73, 135, 255, 0.14), transparent 28%),
-        radial-gradient(circle at 80% 68%, rgba(94, 234, 212, 0.12), transparent 24%),
-        radial-gradient(circle at 50% 115%, rgba(39, 98, 217, 0.24), transparent 38%),
-        linear-gradient(180deg, #0a0f19 0%, #060a12 52%, #04070d 100%);
+        radial-gradient(circle at 22% 18%, rgba(96,165,250,0.16), transparent 28%),
+        radial-gradient(circle at 77% 74%, rgba(94,234,212,0.12), transparent 23%),
+        radial-gradient(circle at 50% 106%, rgba(45,87,166,0.24), transparent 42%),
+        linear-gradient(180deg, var(--bg1) 0%, var(--bg0) 55%, #03060b 100%);
     }
-    .noise, .grid, .chart-floor, .haze, .ui-frame,
-    .hero, .terminal, .mail-stream, .signal-panel, .status-row, .brand-lockup {
-      position: absolute; inset: 0;
+    .noise,.grid,.haze,.chart-floor,.ui-frame,.hero-word,.hero-sub,.eyebrow,
+    .terminal-wrap,.mail-stream,.signal-panel,.status-row,.brand-lockup {
+      position: absolute;
       pointer-events: none;
     }
     .noise {
+      inset: 0;
       opacity: 0.05;
       background-image:
-        radial-gradient(rgba(255,255,255,0.6) 0.45px, transparent 0.55px),
-        radial-gradient(rgba(255,255,255,0.24) 0.35px, transparent 0.45px);
-      background-size: 5px 5px, 7px 7px;
+        radial-gradient(rgba(255,255,255,0.6) 0.4px, transparent 0.5px),
+        radial-gradient(rgba(255,255,255,0.22) 0.3px, transparent 0.4px);
+      background-size: 5px 5px, 8px 8px;
       background-position: 0 0, 2px 1px;
       mix-blend-mode: soft-light;
     }
     .grid {
+      inset: 0;
       background-image:
-        linear-gradient(to right, rgba(138, 170, 233, 0.07) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(138, 170, 233, 0.06) 1px, transparent 1px);
-      background-size: 96px 96px;
-      opacity: 0.48;
-      mask-image: linear-gradient(180deg, rgba(255,255,255,0.55), rgba(255,255,255,0.18) 62%, transparent 100%);
+        linear-gradient(to right, rgba(130,160,220,0.07) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(130,160,220,0.06) 1px, transparent 1px);
+      background-size: 92px 92px;
+      opacity: 0.5;
+      mask-image: linear-gradient(180deg, rgba(255,255,255,0.56), rgba(255,255,255,0.18) 62%, transparent 100%);
+    }
+    .haze {
+      inset: 0;
+    }
+    .haze::before,.haze::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      filter: blur(96px);
+    }
+    .haze::before {
+      width: 600px;
+      height: 340px;
+      left: 170px;
+      top: 120px;
+      background: rgba(96,165,250,0.18);
+    }
+    .haze::after {
+      width: 460px;
+      height: 240px;
+      right: 180px;
+      bottom: 150px;
+      background: rgba(94,234,212,0.13);
+    }
+    .ui-frame {
+      inset: 36px;
+      border-radius: 30px;
+      border: 1px solid rgba(180,208,255,0.08);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02);
     }
     .chart-floor {
-      top: 530px;
-      height: 550px;
-      background:
-        linear-gradient(180deg, transparent, rgba(11, 18, 31, 0.2) 20%, rgba(8, 11, 18, 0.8) 100%);
+      left: 0;
+      right: 0;
+      top: 540px;
+      height: 540px;
     }
     .chart-floor svg {
       position: absolute;
@@ -84,101 +119,104 @@
       height: 100%;
       opacity: 0.9;
     }
-    .haze::before,
-    .haze::after {
-      content: "";
-      position: absolute;
-      border-radius: 999px;
-      filter: blur(90px);
-    }
-    .haze::before {
-      width: 540px; height: 320px;
-      left: 190px; top: 130px;
-      background: rgba(96, 165, 250, 0.16);
-    }
-    .haze::after {
-      width: 420px; height: 220px;
-      right: 210px; bottom: 170px;
-      background: rgba(94, 234, 212, 0.11);
-    }
-    .ui-frame::before {
-      content: "";
-      position: absolute;
-      inset: 34px;
-      border: 1px solid rgba(174, 202, 255, 0.07);
-      border-radius: 28px;
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02);
-    }
 
-    .hero {
-      inset: 0;
-    }
     .eyebrow {
-      position: absolute;
-      top: 106px;
+      top: 104px;
       left: 50%;
       transform: translateX(-50%);
       padding: 10px 16px;
       border-radius: 999px;
-      border: 1px solid rgba(174, 202, 255, 0.14);
-      color: rgba(196, 217, 250, 0.72);
+      border: 1px solid rgba(184, 213, 255, 0.13);
+      background: rgba(10,16,26,0.6);
+      color: rgba(194,214,248,0.72);
       font-family: var(--mono);
       font-size: 16px;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      background: rgba(10, 16, 26, 0.64);
-      box-shadow: 0 18px 48px rgba(0,0,0,0.22);
+      box-shadow: 0 18px 54px rgba(0,0,0,0.24);
+      opacity: 0;
+    }
+    .hero-word {
+      left: 50%;
+      top: 355px;
+      transform: translate(-50%, -50%);
+      font-size: 146px;
+      font-weight: 650;
+      letter-spacing: -0.07em;
+      color: rgba(245,249,255,0.98);
+      text-shadow: 0 0 46px rgba(125,211,252,0.10);
+      opacity: 0;
+      white-space: nowrap;
+    }
+    .hero-word .dot {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      margin: 0 20px 14px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #ffd56a, #f59e0b);
+      box-shadow: 0 0 24px rgba(251,191,36,0.48);
+      vertical-align: middle;
+    }
+    .hero-sub {
+      left: 50%;
+      top: 486px;
+      transform: translateX(-50%);
+      color: rgba(196,216,248,0.64);
+      font-size: 28px;
+      letter-spacing: -0.02em;
+      text-align: center;
+      width: 1080px;
       opacity: 0;
     }
 
-    .terminal {
-      left: 315px;
-      top: 174px;
-      width: 1290px;
-      height: 560px;
-      inset: auto;
+    .terminal-wrap {
+      left: 300px;
+      top: 184px;
+      width: 1320px;
+      height: 580px;
       border-radius: 28px;
       overflow: hidden;
-      background: linear-gradient(180deg, rgba(15, 23, 39, 0.96), rgba(9, 14, 24, 0.94));
-      border: 1px solid rgba(173, 203, 255, 0.12);
+      background: linear-gradient(180deg, rgba(14,21,36,0.97), rgba(8,13,23,0.95));
+      border: 1px solid rgba(173,203,255,0.12);
       box-shadow:
-        0 36px 140px rgba(2, 8, 23, 0.58),
-        0 0 0 1px rgba(255,255,255,0.04),
+        0 38px 150px rgba(2,8,24,0.58),
+        0 0 0 1px rgba(255,255,255,0.03),
         inset 0 1px 0 rgba(255,255,255,0.03);
-      transform-origin: center center;
       opacity: 0;
+      transform-origin: center center;
     }
-    .terminal::before {
+    .terminal-wrap::before {
       content: "";
       position: absolute;
       inset: 0;
       background:
-        linear-gradient(180deg, rgba(125,211,252,0.05), transparent 22%),
-        radial-gradient(circle at 65% 0%, rgba(96,165,250,0.12), transparent 35%);
-      pointer-events: none;
+        linear-gradient(180deg, rgba(125,211,252,0.05), transparent 20%),
+        radial-gradient(circle at 68% 0%, rgba(96,165,250,0.14), transparent 35%);
     }
     .term-head {
+      position: relative;
+      z-index: 2;
       height: 62px;
-      border-bottom: 1px solid rgba(173, 203, 255, 0.10);
+      border-bottom: 1px solid rgba(173,203,255,0.10);
       background: rgba(255,255,255,0.02);
       display: flex;
       align-items: center;
       padding: 0 24px;
       gap: 10px;
-      position: relative;
-      z-index: 2;
     }
-    .dot {
-      width: 12px; height: 12px;
+    .head-dot {
+      width: 12px;
+      height: 12px;
       border-radius: 999px;
-      background: rgba(255,255,255,0.16);
+      background: rgba(255,255,255,0.15);
     }
-    .dot.red { background: rgba(251,113,133,0.46); }
-    .dot.amber { background: rgba(251,191,36,0.42); }
-    .dot.green { background: rgba(94,234,212,0.36); }
+    .head-dot.red { background: rgba(251,113,133,0.44); }
+    .head-dot.amber { background: rgba(251,191,36,0.42); }
+    .head-dot.green { background: rgba(94,234,212,0.34); }
     .term-title {
       margin-left: 14px;
-      color: rgba(194, 215, 255, 0.58);
+      color: rgba(194,214,248,0.56);
       font-family: var(--mono);
       font-size: 15px;
       letter-spacing: 0.08em;
@@ -187,23 +225,22 @@
     .term-body {
       position: relative;
       z-index: 2;
-      padding: 38px 42px 28px;
+      padding: 40px 44px 30px;
       font-family: var(--mono);
-      color: var(--soft);
+      color: rgba(228,239,255,0.9);
     }
     .prompt-line {
-      font-size: 36px;
-      letter-spacing: -0.02em;
-      min-height: 68px;
       display: flex;
       align-items: center;
-      color: rgba(226, 239, 255, 0.92);
+      min-height: 74px;
+      font-size: 38px;
+      letter-spacing: -0.02em;
       white-space: nowrap;
     }
     .prompt {
       color: var(--amber);
       margin-right: 16px;
-      font-weight: 600;
+      font-weight: 700;
     }
     .typed {
       display: inline-block;
@@ -212,55 +249,53 @@
     .cursor {
       display: inline-block;
       width: 13px;
-      height: 32px;
-      margin-left: 6px;
+      height: 34px;
+      margin-left: 7px;
       border-radius: 2px;
       background: linear-gradient(180deg, #ffd56a, #f59e0b);
+      box-shadow: 0 0 22px rgba(251,191,36,0.46);
       vertical-align: -5px;
-      box-shadow: 0 0 22px rgba(251, 191, 36, 0.48);
     }
     .term-meta {
       display: flex;
-      gap: 14px;
-      margin-top: 26px;
       flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 24px;
     }
     .pill {
       padding: 10px 14px;
       border-radius: 999px;
-      border: 1px solid rgba(171, 205, 255, 0.11);
-      color: rgba(197, 218, 251, 0.68);
+      border: 1px solid rgba(173,203,255,0.10);
+      background: rgba(255,255,255,0.03);
+      color: rgba(197,218,251,0.70);
       font-size: 14px;
       letter-spacing: 0.06em;
       text-transform: uppercase;
-      background: rgba(255,255,255,0.03);
     }
     .stack {
-      margin-top: 32px;
       display: grid;
-      grid-template-columns: 1.1fr 0.92fr;
+      grid-template-columns: 1.08fr 0.92fr;
       gap: 18px;
-      align-items: stretch;
+      margin-top: 28px;
     }
-    .log-box, .signal-box {
+    .log-box,.signal-box {
       border-radius: 18px;
-      border: 1px solid rgba(173, 203, 255, 0.10);
+      border: 1px solid rgba(173,203,255,0.10);
       background: rgba(255,255,255,0.03);
       box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
       padding: 18px 20px;
-      min-height: 222px;
+      min-height: 228px;
       position: relative;
       overflow: hidden;
     }
-    .log-box::before, .signal-box::before {
+    .log-box::before,.signal-box::before {
       content: "";
       position: absolute;
       inset: 0;
       background: linear-gradient(180deg, rgba(255,255,255,0.03), transparent 30%);
-      pointer-events: none;
     }
     .box-title {
-      color: rgba(189, 211, 246, 0.62);
+      color: rgba(188,210,246,0.62);
       font-size: 13px;
       letter-spacing: 0.14em;
       text-transform: uppercase;
@@ -269,68 +304,68 @@
     .log-row {
       display: grid;
       grid-template-columns: 58px 1fr auto;
-      align-items: center;
       gap: 14px;
+      align-items: center;
       padding: 10px 0;
-      border-bottom: 1px solid rgba(173, 203, 255, 0.08);
+      border-bottom: 1px solid rgba(173,203,255,0.08);
       font-size: 15px;
       opacity: 0;
-      transform: translateY(10px);
+      transform: translateY(12px);
     }
     .log-row:last-child { border-bottom: none; }
-    .t { color: rgba(167, 192, 232, 0.46); }
-    .label { color: rgba(230, 240, 255, 0.82); }
+    .t { color: rgba(166,191,231,0.44); }
+    .label { color: rgba(230,240,255,0.84); }
     .state {
       padding: 6px 10px;
       border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.08);
       font-size: 12px;
-      text-transform: uppercase;
       letter-spacing: 0.08em;
-      border: 1px solid rgba(255,255,255,0.10);
+      text-transform: uppercase;
     }
     .state.ok { color: var(--green); background: rgba(94,234,212,0.08); }
     .state.warn { color: var(--amber); background: rgba(251,191,36,0.08); }
     .state.info { color: var(--accent); background: rgba(125,211,252,0.08); }
     .spark-wrap {
       display: grid;
-      grid-template-columns: 1fr;
       gap: 14px;
-      margin-top: 4px;
+      margin-top: 2px;
     }
     .spark-card {
       padding: 12px 14px;
       border-radius: 16px;
-      background: rgba(12, 19, 31, 0.68);
-      border: 1px solid rgba(173, 203, 255, 0.08);
+      background: rgba(12,19,31,0.7);
+      border: 1px solid rgba(173,203,255,0.08);
       opacity: 0;
-      transform: translateY(10px);
+      transform: translateY(12px);
     }
     .spark-head {
       display: flex;
-      align-items: center;
       justify-content: space-between;
+      align-items: center;
       margin-bottom: 10px;
-      color: rgba(228, 240, 255, 0.86);
+      color: rgba(229,239,255,0.86);
       font-size: 14px;
     }
     .spark-head span:last-child {
+      color: rgba(188,210,246,0.56);
       font-family: var(--mono);
       font-size: 12px;
-      color: rgba(189, 211, 246, 0.56);
     }
     .spark {
-      width: 100%; height: 38px;
+      width: 100%;
+      height: 40px;
       display: block;
     }
     .actions {
       position: absolute;
-      left: 42px;
-      right: 42px;
+      left: 44px;
+      right: 44px;
       bottom: 28px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      color: rgba(188, 209, 243, 0.54);
+      color: rgba(188,209,243,0.54);
       font-size: 13px;
       letter-spacing: 0.08em;
       text-transform: uppercase;
@@ -343,7 +378,7 @@
       padding: 8px 12px;
       border-radius: 999px;
       background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(173, 203, 255, 0.09);
+      border: 1px solid rgba(173,203,255,0.09);
     }
 
     .mail-stream {
@@ -351,59 +386,58 @@
     }
     .mail-chip {
       position: absolute;
-      left: 120px;
-      width: 264px;
+      left: 106px;
+      width: 276px;
       padding: 15px 18px 16px;
       border-radius: 18px;
-      border: 1px solid rgba(173, 203, 255, 0.10);
-      background: rgba(10, 16, 27, 0.78);
+      border: 1px solid rgba(173,203,255,0.10);
+      background: rgba(10,16,27,0.8);
       box-shadow: 0 24px 80px rgba(0,0,0,0.26);
-      backdrop-filter: blur(14px);
       opacity: 0;
-      transform: translateX(-40px) scale(0.96);
+      transform: translateX(-52px) scale(0.96);
+      backdrop-filter: blur(14px);
     }
     .mail-chip .subj {
-      color: rgba(230, 240, 255, 0.9);
+      color: rgba(230,240,255,0.91);
       font-size: 18px;
       font-weight: 600;
       letter-spacing: -0.02em;
       margin-bottom: 8px;
     }
     .mail-chip .meta {
-      color: rgba(185, 208, 247, 0.56);
+      color: rgba(186,208,247,0.56);
       font-family: var(--mono);
       font-size: 13px;
       margin-bottom: 10px;
     }
     .mail-chip .snippet {
-      color: rgba(196, 216, 248, 0.68);
+      color: rgba(196,216,248,0.68);
       font-size: 14px;
       line-height: 1.5;
     }
 
     .signal-panel {
-      inset: auto;
-      width: 346px;
-      right: 156px;
+      right: 152px;
       top: 224px;
+      width: 356px;
       border-radius: 24px;
       padding: 20px 22px 18px;
-      background: rgba(10, 16, 27, 0.74);
+      background: rgba(10,16,27,0.75);
       border: 1px solid rgba(173,203,255,0.12);
       box-shadow: 0 26px 90px rgba(0,0,0,0.28);
-      backdrop-filter: blur(16px);
       opacity: 0;
-      transform: translateY(16px) scale(0.98);
+      transform: translateY(20px) scale(0.985);
+      backdrop-filter: blur(16px);
     }
     .signal-title {
-      color: rgba(225, 237, 255, 0.90);
+      color: rgba(225,237,255,0.90);
       font-size: 16px;
       font-weight: 600;
       margin-bottom: 8px;
       letter-spacing: -0.02em;
     }
     .signal-sub {
-      color: rgba(190, 210, 241, 0.58);
+      color: rgba(190,210,241,0.58);
       font-size: 13px;
       margin-bottom: 16px;
       line-height: 1.5;
@@ -416,37 +450,28 @@
       padding: 12px 0;
       border-top: 1px solid rgba(173,203,255,0.08);
       opacity: 0;
-      transform: translateY(8px);
+      transform: translateY(10px);
     }
     .signal-item:first-of-type { border-top: none; }
     .bullet {
-      width: 10px; height: 10px;
+      width: 10px;
+      height: 10px;
       border-radius: 999px;
-      box-shadow: 0 0 18px currentColor;
+      box-shadow: 0 0 16px currentColor;
     }
     .bullet.green { color: var(--green); background: var(--green); }
     .bullet.amber { color: var(--amber); background: var(--amber); }
     .bullet.blue { color: var(--accent); background: var(--accent); }
-    .sig-main {
-      color: rgba(229, 239, 255, 0.86);
-      font-size: 14px;
-    }
-    .sig-side {
-      color: rgba(189, 211, 246, 0.52);
-      font-family: var(--mono);
-      font-size: 12px;
-    }
+    .sig-main { color: rgba(229,239,255,0.86); font-size: 14px; }
+    .sig-side { color: rgba(189,211,246,0.52); font-family: var(--mono); font-size: 12px; }
 
     .status-row {
-      top: 796px;
       left: 160px;
       right: 160px;
-      bottom: auto;
-      height: 112px;
+      top: 792px;
+      height: 116px;
       display: flex;
       gap: 18px;
-      align-items: stretch;
-      justify-content: center;
       opacity: 0;
     }
     .status-card {
@@ -455,77 +480,78 @@
       border-radius: 20px;
       padding: 16px 18px;
       border: 1px solid rgba(173,203,255,0.09);
-      background: rgba(12, 18, 30, 0.68);
+      background: rgba(12,18,30,0.68);
       box-shadow: 0 22px 70px rgba(0,0,0,0.22);
-      transform: translateY(20px);
+      transform: translateY(18px);
       opacity: 0;
     }
     .status-card .k {
-      color: rgba(189, 211, 246, 0.5);
+      color: rgba(189,211,246,0.5);
       font-size: 12px;
       text-transform: uppercase;
       letter-spacing: 0.12em;
       margin-bottom: 8px;
     }
     .status-card .v {
-      color: rgba(233, 242, 255, 0.92);
+      color: rgba(233,242,255,0.92);
       font-size: 21px;
       letter-spacing: -0.03em;
       font-weight: 600;
       margin-bottom: 6px;
     }
     .status-card .d {
-      color: rgba(194, 216, 248, 0.52);
+      color: rgba(194,216,248,0.52);
       font-size: 12px;
       line-height: 1.4;
     }
 
     .brand-lockup {
-      inset: auto;
-      left: 0; right: 0; bottom: 22px;
+      left: 0;
+      right: 0;
+      bottom: 28px;
       text-align: center;
       opacity: 0;
       transform: translateY(18px);
     }
     .brand-lockup h1 {
       margin: 0;
-      font-size: 52px;
-      letter-spacing: -0.055em;
-      font-weight: 600;
-      color: rgba(241, 247, 255, 0.96);
+      font-size: 54px;
+      font-weight: 650;
+      letter-spacing: -0.06em;
+      color: rgba(241,247,255,0.97);
     }
     .brand-lockup p {
       margin: 8px 0 0;
-      color: rgba(191, 212, 247, 0.62);
+      color: rgba(191,212,247,0.64);
       font-size: 18px;
       letter-spacing: -0.02em;
     }
     .brand-lockup .subline {
       margin-top: 10px;
       display: inline-flex;
-      gap: 12px;
       align-items: center;
+      gap: 12px;
       padding: 10px 14px;
       border-radius: 999px;
       border: 1px solid rgba(173,203,255,0.09);
       background: rgba(255,255,255,0.03);
-      color: rgba(193, 214, 247, 0.56);
+      color: rgba(193,214,247,0.56);
       font-family: var(--mono);
       font-size: 12px;
       letter-spacing: 0.08em;
       text-transform: uppercase;
     }
-
-    .shadow-glow {
+    .orb {
       position: absolute;
-      width: 730px;
-      height: 220px;
-      left: 595px;
-      top: 646px;
+      width: 760px;
+      height: 250px;
+      left: 580px;
+      top: 632px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(96,165,250,0.22), rgba(96,165,250,0.05) 45%, transparent 72%);
-      filter: blur(50px);
+      background: radial-gradient(circle, rgba(96,165,250,0.24), rgba(96,165,250,0.06) 45%, transparent 72%);
+      filter: blur(56px);
       opacity: 0;
+      pointer-events: none;
     }
   </style>
 </head>
@@ -534,43 +560,40 @@
     <div class="noise"></div>
     <div class="grid"></div>
     <div class="chart-floor">
-      <svg viewBox="0 0 1920 550" preserveAspectRatio="none" aria-hidden="true">
+      <svg viewBox="0 0 1920 540" preserveAspectRatio="none" aria-hidden="true">
         <defs>
           <linearGradient id="areaGlow" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="rgba(96,165,250,0.38)" />
+            <stop offset="0%" stop-color="rgba(96,165,250,0.40)" />
             <stop offset="100%" stop-color="rgba(96,165,250,0)" />
           </linearGradient>
         </defs>
-        <g opacity="0.16" stroke="rgba(120,157,223,0.25)" stroke-width="1">
+        <g opacity="0.15" stroke="rgba(120,157,223,0.24)" stroke-width="1">
           <line x1="120" y1="450" x2="1810" y2="450" />
           <line x1="120" y1="370" x2="1810" y2="370" />
           <line x1="120" y1="290" x2="1810" y2="290" />
           <line x1="120" y1="210" x2="1810" y2="210" />
         </g>
-        <path d="M120,410 C220,392 290,360 360,340 C470,308 565,354 630,310 C700,264 774,198 865,218 C945,236 1004,314 1082,286 C1158,258 1208,196 1284,184 C1358,172 1428,204 1492,188 C1592,164 1682,118 1810,104" fill="none" stroke="rgba(125,211,252,0.30)" stroke-width="2.6" />
-        <path d="M120,452 C250,438 312,394 388,374 C450,356 538,360 608,330 C676,302 742,250 836,264 C914,276 972,342 1060,326 C1140,312 1216,250 1286,240 C1382,226 1498,238 1574,214 C1666,186 1732,142 1810,138 L1810,550 L120,550 Z" fill="url(#areaGlow)" opacity="0.28"/>
+        <path d="M120,416 C220,398 290,362 360,342 C470,310 565,356 630,312 C700,266 774,200 865,220 C945,238 1004,316 1082,288 C1158,260 1208,198 1284,186 C1358,174 1428,206 1492,190 C1592,166 1682,122 1810,108" fill="none" stroke="rgba(125,211,252,0.32)" stroke-width="2.6" />
+        <path d="M120,454 C250,440 312,396 388,376 C450,358 538,362 608,332 C676,304 742,252 836,266 C914,278 972,344 1060,328 C1140,314 1216,252 1286,242 C1382,228 1498,240 1574,216 C1666,188 1732,144 1810,140 L1810,540 L120,540 Z" fill="url(#areaGlow)" opacity="0.28" />
       </svg>
     </div>
     <div class="haze"></div>
     <div class="ui-frame"></div>
-    <div class="shadow-glow" id="shadowGlow"></div>
+    <div class="orb" id="orb"></div>
 
-    <div class="hero">
-      <div class="eyebrow" id="eyebrow">mail / triage / local intelligence</div>
-    </div>
+    <div class="eyebrow" id="eyebrow">mail / triage / local intelligence</div>
+    <div class="hero-word" id="heroWord">MailMind<span class="dot"></span></div>
+    <div class="hero-sub" id="heroSub">A local-first Gmail intelligence workspace that turns inbox pressure into next actions, grounded search, and privacy-aware answers.</div>
 
-    <div class="terminal" id="terminal">
+    <div class="terminal-wrap" id="terminal">
       <div class="term-head">
-        <span class="dot red"></span>
-        <span class="dot amber"></span>
-        <span class="dot green"></span>
+        <span class="head-dot red"></span>
+        <span class="head-dot amber"></span>
+        <span class="head-dot green"></span>
         <div class="term-title">mailmind / operator review / grounded inbox</div>
       </div>
       <div class="term-body">
-        <div class="prompt-line">
-          <span class="prompt">&gt;</span>
-          <span class="typed" id="typed"></span><span class="cursor" id="cursor"></span>
-        </div>
+        <div class="prompt-line"><span class="prompt">&gt;</span><span class="typed" id="typed"></span><span class="cursor" id="cursor"></span></div>
         <div class="term-meta">
           <span class="pill">read-only oauth</span>
           <span class="pill">local sqlite</span>
@@ -590,38 +613,35 @@
             <div class="spark-wrap">
               <div class="spark-card" id="spark1">
                 <div class="spark-head"><span>Tasks</span><span>8 actionable</span></div>
-                <svg class="spark" viewBox="0 0 300 38" preserveAspectRatio="none"><path d="M0,29 C24,28 32,18 56,16 C74,14 90,18 114,13 C130,10 145,6 166,8 C192,11 206,19 224,18 C246,16 263,9 300,8" fill="none" stroke="#fbbf24" stroke-width="2.2" stroke-linecap="round"/></svg>
+                <svg class="spark" viewBox="0 0 300 40" preserveAspectRatio="none"><path d="M0,28 C20,30 42,18 70,16 C98,14 122,24 150,15 C176,7 192,8 216,14 C238,18 258,13 300,8" fill="none" stroke="#fbbf24" stroke-width="2.3" stroke-linecap="round"/></svg>
               </div>
               <div class="spark-card" id="spark2">
                 <div class="spark-head"><span>AI Search</span><span>grounded</span></div>
-                <svg class="spark" viewBox="0 0 300 38" preserveAspectRatio="none"><path d="M0,23 C28,22 46,28 74,26 C100,24 118,8 146,9 C180,10 204,31 232,28 C252,26 273,13 300,14" fill="none" stroke="#7dd3fc" stroke-width="2.2" stroke-linecap="round"/></svg>
+                <svg class="spark" viewBox="0 0 300 40" preserveAspectRatio="none"><path d="M0,22 C26,18 42,30 70,26 C96,22 122,10 154,12 C182,13 202,28 230,27 C256,26 274,16 300,14" fill="none" stroke="#7dd3fc" stroke-width="2.3" stroke-linecap="round"/></svg>
               </div>
               <div class="spark-card" id="spark3">
                 <div class="spark-head"><span>PII Guard</span><span>rehydrated</span></div>
-                <svg class="spark" viewBox="0 0 300 38" preserveAspectRatio="none"><path d="M0,30 C24,12 42,8 66,14 C92,22 118,34 146,30 C168,27 190,12 214,14 C238,17 266,31 300,20" fill="none" stroke="#a78bfa" stroke-width="2.2" stroke-linecap="round"/></svg>
+                <svg class="spark" viewBox="0 0 300 40" preserveAspectRatio="none"><path d="M0,29 C20,14 40,10 68,15 C96,20 122,30 154,28 C182,26 204,14 228,16 C252,18 274,30 300,21" fill="none" stroke="#a78bfa" stroke-width="2.3" stroke-linecap="round"/></svg>
               </div>
             </div>
           </div>
         </div>
-        <div class="actions">
-          <span>scan / extract / answer / remind</span>
-          <div class="action-pills"><span>Extract</span><span>Search</span><span>Guard</span></div>
-        </div>
+        <div class="actions"><span>scan / extract / answer / remind</span><div class="action-pills"><span>Extract</span><span>Search</span><span>Guard</span></div></div>
       </div>
     </div>
 
     <div class="mail-stream">
-      <div class="mail-chip" id="mail1" style="top:256px;">
+      <div class="mail-chip" id="mail1" style="top:256px; left:122px;">
         <div class="subj">Interview times?</div>
         <div class="meta">reply-needed / Fri 2:00 PM</div>
         <div class="snippet">Can you confirm which slot works best this week?</div>
       </div>
-      <div class="mail-chip" id="mail2" style="top:356px; left:106px; width:278px;">
+      <div class="mail-chip" id="mail2" style="top:360px; left:104px; width:286px;">
         <div class="subj">Lease PDF attached</div>
         <div class="meta">document / landlord</div>
         <div class="snippet">Please review the signed attachment and confirm section 4.</div>
       </div>
-      <div class="mail-chip" id="mail3" style="top:458px; left:132px; width:286px;">
+      <div class="mail-chip" id="mail3" style="top:464px; left:132px; width:292px;">
         <div class="subj">Revision notes</div>
         <div class="meta">follow-up / professor</div>
         <div class="snippet">Revise theorem proof and reply with the updated draft.</div>
@@ -630,28 +650,16 @@
 
     <div class="signal-panel" id="signalPanel">
       <div class="signal-title">Next actions worth doing now</div>
-      <div class="signal-sub">MailMind turns scattered inbox pressure into an operator-style working brief.</div>
+      <div class="signal-sub">MailMind turns scattered inbox pressure into a concise operator-style working brief.</div>
       <div class="signal-item" id="sig1"><span class="bullet amber"></span><span class="sig-main">Reply to recruiter before Friday</span><span class="sig-side">high</span></div>
       <div class="signal-item" id="sig2"><span class="bullet blue"></span><span class="sig-main">Ask AI Search about the lease PDF</span><span class="sig-side">grounded</span></div>
       <div class="signal-item" id="sig3"><span class="bullet green"></span><span class="sig-main">Keep PII redaction enabled for external calls</span><span class="sig-side">safe</span></div>
     </div>
 
     <div class="status-row" id="statusRow">
-      <div class="status-card" id="status1">
-        <div class="k">Reply queue</div>
-        <div class="v">3 threads need action</div>
-        <div class="d">Important follow-ups stop being buried after triage.</div>
-      </div>
-      <div class="status-card" id="status2">
-        <div class="k">Grounded memory</div>
-        <div class="v">PDF + email evidence linked</div>
-        <div class="d">Answers stay tied to retrieved messages and attachments.</div>
-      </div>
-      <div class="status-card" id="status3">
-        <div class="k">Privacy boundary</div>
-        <div class="v">Local-first before LLM</div>
-        <div class="d">Sensitive details can be placeholder-redacted locally.</div>
-      </div>
+      <div class="status-card" id="status1"><div class="k">Reply queue</div><div class="v">3 threads need action</div><div class="d">Important follow-ups stop being buried after triage.</div></div>
+      <div class="status-card" id="status2"><div class="k">Grounded memory</div><div class="v">PDF + email evidence linked</div><div class="d">Answers stay tied to retrieved messages and attachments.</div></div>
+      <div class="status-card" id="status3"><div class="k">Privacy boundary</div><div class="v">Local-first before LLM</div><div class="d">Sensitive details can be placeholder-redacted locally.</div></div>
     </div>
 
     <div class="brand-lockup" id="brandLockup">
@@ -662,121 +670,112 @@
   </div>
 
   <script>
-    const DURATION = 14;
+    const DURATION = 12;
     const stage = document.getElementById('stage');
     const eyebrow = document.getElementById('eyebrow');
+    const heroWord = document.getElementById('heroWord');
+    const heroSub = document.getElementById('heroSub');
     const terminal = document.getElementById('terminal');
     const typed = document.getElementById('typed');
     const cursor = document.getElementById('cursor');
-    const shadowGlow = document.getElementById('shadowGlow');
+    const orb = document.getElementById('orb');
     const signalPanel = document.getElementById('signalPanel');
     const statusRow = document.getElementById('statusRow');
     const brandLockup = document.getElementById('brandLockup');
-
     const mailEls = [document.getElementById('mail1'), document.getElementById('mail2'), document.getElementById('mail3')];
     const logEls = [document.getElementById('log1'), document.getElementById('log2'), document.getElementById('log3'), document.getElementById('log4')];
     const sparkEls = [document.getElementById('spark1'), document.getElementById('spark2'), document.getElementById('spark3')];
     const sigEls = [document.getElementById('sig1'), document.getElementById('sig2'), document.getElementById('sig3')];
     const statusCards = [document.getElementById('status1'), document.getElementById('status2'), document.getElementById('status3')];
-
     const promptText = 'run mailmind • scan inbox • extract next actions';
     let start = performance.now();
 
-    function clamp(v, lo = 0, hi = 1) { return Math.max(lo, Math.min(hi, v)); }
-    function lerp(a, b, t) { return a + (b - a) * clamp(t); }
-    function easeOutCubic(t) { t = clamp(t); return 1 - Math.pow(1 - t, 3); }
-    function easeInOut(t) { t = clamp(t); return 0.5 - 0.5 * Math.cos(Math.PI * t); }
-    function expoOut(t) { t = clamp(t); return t === 1 ? 1 : 1 - Math.pow(2, -10 * t); }
-    function seg(t, a, b) { return clamp((t - a) / (b - a)); }
-    function fade(t, a, b) { return easeInOut(seg(t, a, b)); }
-    function pulse(t, a, peak, b) {
-      return fade(t, a, peak) * (1 - fade(t, peak, b));
-    }
-    function setStyle(el, styles) {
-      for (const [k, v] of Object.entries(styles)) el.style[k] = v;
-    }
+    const clamp = (v, lo = 0, hi = 1) => Math.max(lo, Math.min(hi, v));
+    const lerp = (a, b, t) => a + (b - a) * clamp(t);
+    const easeOut = t => { t = clamp(t); return 1 - Math.pow(1 - t, 3); };
+    const easeInOut = t => { t = clamp(t); return 0.5 - 0.5 * Math.cos(Math.PI * t); };
+    const expoOut = t => { t = clamp(t); return t === 1 ? 1 : 1 - Math.pow(2, -10 * t); };
+    const seg = (t, a, b) => clamp((t - a) / (b - a));
+    const fade = (t, a, b) => easeInOut(seg(t, a, b));
+    const pulse = (t, a, peak, b) => fade(t, a, peak) * (1 - fade(t, peak, b));
+    const setStyle = (el, styles) => { for (const [k, v] of Object.entries(styles)) el.style[k] = v; };
     function rowReveal(el, p) {
-      const e = easeOutCubic(p);
-      setStyle(el, {
-        opacity: String(e),
-        transform: `translateY(${lerp(10, 0, e)}px)`
-      });
+      const e = easeOut(p);
+      setStyle(el, { opacity: String(e), transform: `translateY(${lerp(12, 0, e)}px)` });
     }
 
     function render(sec) {
       const t = Math.min(sec, DURATION);
-
-      // subtle stage parallax
-      const driftX = Math.sin(t * 0.45) * 6;
-      const driftY = Math.cos(t * 0.38) * 4;
+      const driftX = Math.sin(t * 0.42) * 5;
+      const driftY = Math.cos(t * 0.35) * 4;
       stage.style.transform = `translate(-50%, -50%) translate(${driftX}px, ${driftY}px)`;
 
-      const eye = fade(t, 0.15, 0.9);
-      setStyle(eyebrow, {
-        opacity: String(eye * 0.95),
-        transform: `translateX(-50%) translateY(${lerp(16, 0, eye)}px)`
+      const eyebrowP = fade(t, 0.15, 0.8) * (1 - fade(t, 3.2, 4.1) * 0.22);
+      setStyle(eyebrow, { opacity: String(eyebrowP), transform: `translateX(-50%) translateY(${lerp(18, 0, eyebrowP)}px)` });
+
+      const heroIn = expoOut(seg(t, 0.2, 1.25));
+      const heroHold = 1 - fade(t, 2.2, 3.65);
+      const heroP = heroIn * heroHold;
+      const heroShift = fade(t, 2.6, 3.8);
+      setStyle(heroWord, {
+        opacity: String(heroP),
+        transform: `translate(-50%, -50%) translateY(${lerp(30, 0, heroIn) - heroShift * 120}px) scale(${lerp(0.94, 1, heroIn) - heroShift * 0.14})`
+      });
+      setStyle(heroSub, {
+        opacity: String(heroP * 0.88),
+        transform: `translateX(-50%) translateY(${lerp(18, 0, heroIn) - heroShift * 58}px)`
       });
 
-      const termIn = expoOut(seg(t, 0.25, 1.55));
-      const termFloat = Math.sin(t * 0.7) * 4;
+      const termIn = expoOut(seg(t, 3.0, 4.15));
+      const termFloat = Math.sin(t * 0.72) * 3.5;
       setStyle(terminal, {
         opacity: String(termIn),
-        transform: `translateY(${lerp(42, 0, termIn) + termFloat}px) scale(${lerp(0.965, 1, termIn)})`
+        transform: `translateY(${lerp(56, 0, termIn) + termFloat}px) scale(${lerp(0.972, 1, termIn)})`
       });
 
-      const typedP = clamp((t - 1.1) / 3.2);
+      const typedP = clamp((t - 3.95) / 2.2);
       const count = Math.floor(promptText.length * typedP);
       typed.textContent = promptText.slice(0, count);
-      cursor.style.opacity = (Math.sin(t * 8) > 0 ? 1 : 0.2).toString();
+      cursor.style.opacity = (Math.sin(t * 10) > 0 ? 1 : 0.18).toString();
 
-      const glowP = pulse(t, 2.8, 5.0, 9.8);
-      setStyle(shadowGlow, { opacity: String(glowP * 0.82) });
+      const orbP = pulse(t, 4.2, 6.2, 10.8);
+      setStyle(orb, { opacity: String(orbP * 0.86) });
 
       mailEls.forEach((el, idx) => {
-        const p = expoOut(seg(t, 0.65 + idx * 0.35, 2.1 + idx * 0.35));
-        const absorb = easeInOut(seg(t, 3.2 + idx * 0.22, 5.0 + idx * 0.22));
-        const x = lerp(-54 + idx * -8, 0, p) + lerp(0, 780, absorb);
-        const y = lerp(0, -58 - idx * 18, absorb);
-        const s = lerp(0.96, 1, p) * lerp(1, 0.74, absorb);
-        const o = p * (1 - absorb * 0.96);
-        setStyle(el, {
-          opacity: String(o),
-          transform: `translate(${x}px, ${y}px) scale(${s})`
-        });
+        const p = expoOut(seg(t, 4.15 + idx * 0.16, 4.85 + idx * 0.16));
+        const absorb = easeInOut(seg(t, 6.2 + idx * 0.18, 7.0 + idx * 0.18));
+        const x = lerp(-48 - idx * 8, 0, p) + lerp(0, 760, absorb);
+        const y = lerp(0, -62 - idx * 16, absorb);
+        const s = lerp(0.96, 1, p) * lerp(1, 0.76, absorb);
+        const o = p * (1 - absorb * 0.98);
+        setStyle(el, { opacity: String(o), transform: `translate(${x}px, ${y}px) scale(${s})` });
       });
 
-      logEls.forEach((el, idx) => rowReveal(el, seg(t, 4.2 + idx * 0.38, 4.95 + idx * 0.38)));
-      sparkEls.forEach((el, idx) => rowReveal(el, seg(t, 5.0 + idx * 0.34, 5.7 + idx * 0.34)));
+      logEls.forEach((el, idx) => rowReveal(el, seg(t, 5.25 + idx * 0.18, 5.85 + idx * 0.18)));
+      sparkEls.forEach((el, idx) => rowReveal(el, seg(t, 5.7 + idx * 0.18, 6.2 + idx * 0.18)));
 
-      const panelP = expoOut(seg(t, 5.3, 6.35));
+      const panelP = expoOut(seg(t, 6.15, 6.95));
       setStyle(signalPanel, {
         opacity: String(panelP),
-        transform: `translateY(${lerp(18, 0, panelP)}px) scale(${lerp(0.985, 1, panelP)})`
+        transform: `translateY(${lerp(22, 0, panelP)}px) scale(${lerp(0.985, 1, panelP)})`
       });
-      sigEls.forEach((el, idx) => rowReveal(el, seg(t, 5.85 + idx * 0.28, 6.45 + idx * 0.28)));
+      sigEls.forEach((el, idx) => rowReveal(el, seg(t, 6.5 + idx * 0.16, 6.98 + idx * 0.16)));
 
-      const statusP = expoOut(seg(t, 7.2, 8.3));
+      const statusP = expoOut(seg(t, 7.1, 7.9));
       setStyle(statusRow, { opacity: String(statusP) });
       statusCards.forEach((el, idx) => {
-        const p = expoOut(seg(t, 7.35 + idx * 0.18, 8.15 + idx * 0.18));
-        setStyle(el, {
-          opacity: String(p),
-          transform: `translateY(${lerp(18, 0, p)}px)`
-        });
+        const p = expoOut(seg(t, 7.2 + idx * 0.12, 7.8 + idx * 0.12));
+        setStyle(el, { opacity: String(p), transform: `translateY(${lerp(16, 0, p)}px)` });
       });
 
-      const brandP = expoOut(seg(t, 9.2, 10.3));
-      setStyle(brandLockup, {
-        opacity: String(brandP),
-        transform: `translateY(${lerp(20, 0, brandP)}px)`
-      });
+      const brandP = expoOut(seg(t, 8.2, 9.0));
+      setStyle(brandLockup, { opacity: String(brandP), transform: `translateY(${lerp(16, 0, brandP)}px)` });
 
-      const freeze = easeInOut(seg(t, 11.2, 14.0));
-      const overallLift = lerp(0, -8, freeze);
-      terminal.style.top = `${174 + overallLift}px`;
-      signalPanel.style.top = `${224 + overallLift * 0.3}px`;
-      statusRow.style.top = `${782 + overallLift * 0.5}px`;
-      brandLockup.style.bottom = `${74 + freeze * 8}px`;
+      const settle = easeInOut(seg(t, 9.3, 12.0));
+      terminal.style.top = `${184 - settle * 10}px`;
+      signalPanel.style.top = `${224 - settle * 3}px`;
+      statusRow.style.top = `${792 - settle * 1.5}px`;
+      brandLockup.style.bottom = `${28 + settle * 6}px`;
     }
 
     let raf = null;

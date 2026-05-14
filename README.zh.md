@@ -35,7 +35,9 @@ git clone https://github.com/Parsiffal1/Mailmind.git && cd Mailmind
 
 ---
 
-![MailMind hero animation](docs/assets/mailmind-hero.gif)
+<p align="center">
+  <img src="docs/assets/mailmind-hero.gif" alt="MailMind hero animation" width="100%">
+</p>
 
 <div align="center">
   <sub>▲ Hero animation made with <a href="https://github.com/alchaincyf/huashu-design/tree/master">huashu-design</a></sub>
