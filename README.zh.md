@@ -2,80 +2,76 @@
 
 [English](README.md) | [中文](README.zh.md)
 
-![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
-![Local-first](https://img.shields.io/badge/Architecture-Local--first-blue)
-![Gmail](https://img.shields.io/badge/Gmail-Read--only%20OAuth-red)
+<div align="center">
+  <h1>MailMind</h1>
+  <p><em>把拥挤的邮箱，变成一个真正能工作的任务系统。</em></p>
+  <p>
+    <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT" />
+    <img src="https://img.shields.io/badge/Architecture-Local--first-blue" alt="Architecture: Local-first" />
+    <img src="https://img.shields.io/badge/Gmail-Read--only%20OAuth-red" alt="Gmail: Read-only OAuth" />
+    <img src="https://img.shields.io/badge/AI%20Search-RAG%20enabled-7c3aed" alt="AI Search: RAG enabled" />
+  </p>
+  <p><strong>一个面向真实工作流的 local-first Gmail 智能工作台。</strong></p>
+  <p>
+    MailMind 通过只读 Gmail OAuth 拉取邮件，用 LLM 提取行动项，把工作数据保存在本地 SQLite，
+    再把最近邮件整理成可执行的 dashboard、可检索的信息层，以及可选的 Telegram 提醒。
+  </p>
+  <p>
+    它首先是给人直接使用的邮箱工作产品；如果需要，也可以作为 agent workflow
+    或 inbox-driven productivity system 的后端能力复用。
+  </p>
+  <p>
+    <a href="#示例输出">示例输出</a> ·
+    <a href="#安装">安装</a> ·
+    <a href="#你能得到什么">你能得到什么</a> ·
+    <a href="#它怎么工作">它怎么工作</a> ·
+    <a href="#ai-search-和-rag">AI Search</a> ·
+    <a href="#隐私模型">隐私</a> ·
+    <a href="#继续阅读">继续阅读</a>
+  </p>
+</div>
+
+```bash
+git clone https://github.com/Parsiffal1/Mailmind.git && cd Mailmind
+```
+
+---
 
 ![MailMind brand hero](docs/demo/gifs/mailmind_brand_hero.gif)
 
-MailMind 是一个 local-first 的 Gmail 智能助手，可以把拥挤的邮箱转成任务系统、可搜索的信息层，以及带隐私边界的个人工作流。
+<div align="center">
+  <sub>▲ MailMind 产品演示用 Hero 动画</sub>
+</div>
 
-它通过 Gmail 只读 API 拉取邮件，用 LLM 提取行动项，把数据保存在本地 SQLite，并提供 dashboard、基于 RAG 的邮件正文与 PDF 附件搜索能力、Telegram 提醒，以及可配置的隐私控制。
-
-## 为什么它不一样
-
-很多邮箱工具要么只停留在规则筛选，要么要求你把整个邮箱交给托管服务。
-
-MailMind 走的是另一条路线：
-
-- **默认 local-first**：数据库、附件和索引都留在你的机器上。
-- **结构化任务抽取**：从杂乱的邮件线程里提取 deadline、待回复、待处理和待审核事项。
-- **带来源依据的 AI Search**：回答会附上 source cards，而不是无依据的聊天式输出。
-- **统一的产品闭环**：FastAPI、Next.js、SQLite、Gmail OAuth、scheduler、Telegram、RAG 和隐私边界不是分散的 demo，而是在同一个项目里一起工作。
-- **适合公开演示**：仓库内包含 synthetic demo assets，可以安全展示产品而不暴露真实邮箱数据。
-
-## 一次刷新后你会得到什么
+## 示例输出
 
 ```text
-最近的邮箱动态
-  -> 带 due date 和 reply-needed 标记的结构化任务
-  -> 可搜索的邮件正文和 PDF 附件
-  -> 带来源依据的 inbox 问题回答
-  -> 可选的 Telegram 提醒和定时 follow-up
+邮箱刷新完成
+• 新抽取任务：8
+• 待回复事项：3
+• 待复核事项：2
+• 即将到期：4
+• 搜索索引已更新：邮件正文 + PDF 附件
+• Telegram 提醒：已启用
+
+建议先处理
+1. 周五下午 2 点前回复 recruiter 的面试时间
+2. 查看房东附件并确认 lease 细节
+3. 今晚前完成 TA grading follow-up
+
+可以直接问邮箱
+• “教授上次让我改哪几处？”
+• “报销截止日期是在那个 PDF 里提到的？”
+• “把我今天答应回复的最后一封线程找出来”
 ```
 
-## 核心能力
+## 安装
 
-- 一键刷新 Gmail，把最近邮件转成结构化任务。
-- 跟踪 due date、priority、是否需要回复、是否需要复核。
-- 对邮件正文和 text-layer PDF 附件做 hybrid retrieval 搜索。
-- 直接提问 inbox 问题，并拿到带来源依据的答案。
-- 用 Telegram 跑提醒和轻量交互。
-- 在原文直发 LLM 与 PII rehydration 之间切换。
-- 用 synthetic sample data 安全演示完整产品，而不用暴露真实邮箱内容。
+如果你只是想最快看到产品效果，建议先跑 demo mode。它不需要 Gmail 凭据，也不需要真实模型调用。
 
-## 界面预览
-
-
-![任务总览](docs/demo/screenshots/01_tasks_overview.png)
-![AI 搜索答案](docs/demo/screenshots/02_ai_search_answer.png)
-
-仓库里的截图不包含真实邮件、OAuth token、API key 或私人附件。
-
-## 快速导航
-
-- [为什么它不一样](#为什么它不一样)
-- [一次刷新后你会得到什么](#一次刷新后你会得到什么)
-- [核心能力](#核心能力)
-- [快速开始](#快速开始)
-- [接入真实 Gmail](#接入真实-gmail)
-- [流程概览](#流程概览)
-- [AI Search 和 RAG](#ai-search-和-rag)
-- [隐私模型](#隐私模型)
-- [可选服务](#可选服务)
-- [仓库结构](#仓库结构)
-- [下一步该看什么](#下一步该看什么)
-- [项目状态和边界](#项目状态和边界)
-
-## 快速开始
-
-如果你只是想先看产品效果，建议先跑 demo mode。它不需要 Gmail credentials，也不需要付费 API 调用。
-
-### 快速路径
+### macOS / Linux
 
 ```bash
-git clone https://github.com/Parsiffal1/Mailmind.git
-cd Mailmind
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
@@ -107,12 +103,15 @@ http://127.0.0.1:8000/?demo=1
 ### Windows PowerShell
 
 ```powershell
-git clone https://github.com/Parsiffal1/Mailmind.git
-cd Mailmind
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 Copy-Item .env.example .env
+cd dashboard
+npm install
+npm run build
+cd ..
+python -m mailmind.api
 ```
 
 设置：
@@ -121,31 +120,37 @@ Copy-Item .env.example .env
 MAILMIND_LLM_PROVIDER=mock
 ```
 
-然后运行：
+## 你能得到什么
 
-```powershell
-cd dashboard
-npm install
-npm run build
-cd ..
-python -m mailmind.api
-```
+- **把杂乱线程变成结构化任务**：自动抽出 due date、待回复、follow-up 和待审核事项。
+- **一个真正可工作的 dashboard**：不用反复重读整箱邮件，也知道接下来先做什么。
+- **带来源依据的 inbox 搜索**：回答会附带检索证据，而不是脱离上下文的聊天式猜测。
+- **默认 local-first**：邮件元数据、索引和工作流状态优先保留在你的机器上。
+- **可选 Telegram 提醒**：同一层任务抽取结果可以直接变成站外提醒。
+- **适合作品集公开展示**：仓库里的演示素材是 synthetic 的，可以安全展示。
+
+## 界面预览
+
+![任务总览](docs/demo/screenshots/01_tasks_overview.png)
+![AI 搜索答案](docs/demo/screenshots/02_ai_search_answer.png)
+
+仓库里的截图不包含真实邮件、OAuth token、API key 或私人附件。
 
 ## 接入真实 Gmail
 
 1. 打开 Google Cloud Console。
 2. 创建或选择一个项目。
 3. 启用 Gmail API。
-4. 配置 Google Auth Platform consent screen，个人项目可使用 external testing。
+4. 配置 consent screen，个人项目可使用 external testing。
 5. 创建 OAuth client ID，类型选择 `Desktop app`。
 6. 下载 OAuth client JSON，保存到项目根目录并命名为 `credentials.json`。
-7. 在 Google Auth Platform 里把自己的 Gmail 加为 test user。
+7. 在 Google Auth Platform 中把自己的 Gmail 加为 test user。
 
 然后配置 `.env`：
 
 ```text
 MAILMIND_LLM_PROVIDER=anthropic
-ANTHROPIC_API_KEY=your_anthropic_api_key
+ANTHROPIC_API_KEY=your_a...key
 MAILMIND_GMAIL_CREDENTIALS=credentials.json
 MAILMIND_GMAIL_TOKEN=token.json
 MAILMIND_POLL_QUERY=newer_than:14d
@@ -154,13 +159,13 @@ MAILMIND_POLL_LIMIT=40
 
 运行：
 
-```powershell
+```bash
 python -m mailmind.api
 ```
 
 打开 `http://127.0.0.1:8000`，点击 `Refresh`，完成浏览器 OAuth 授权。第一次登录成功后，MailMind 会在本地写入 `token.json`。
 
-## 流程概览
+## 它怎么工作
 
 ```text
 Refresh
@@ -172,7 +177,7 @@ Refresh
 ```
 
 ```text
-Gmail readonly OAuth
+Gmail 只读 OAuth
         |
         v
 FastAPI backend + SQLite
@@ -180,7 +185,7 @@ FastAPI backend + SQLite
         +--> LLM task extraction -> tasks, deadlines, priorities
         |
         +--> AI search index -> email chunks + PDF chunks
-        |                         -> Chroma vector search + SQLite FTS5
+        |                       -> Chroma vector search + SQLite FTS5
         |
         +--> Next.js dashboard
         |
@@ -227,20 +232,20 @@ PII Guard 覆盖 email、phone、SSN、ID-like values、account-like numbers、A
 
 Scheduler worker:
 
-```powershell
+```bash
 python -m mailmind.worker
 ```
 
 Telegram bot:
 
-```powershell
+```bash
 python -m mailmind.bot
 ```
 
 Telegram 需要：
 
 ```text
-TELEGRAM_BOT_TOKEN=your_telegram_bot_token
+TELEGRAM_BOT_TOKEN=your_t...ken
 TELEGRAM_CHAT_ID=your_chat_id
 MAILMIND_TELEGRAM_NOTIFICATIONS_ENABLED=true
 ```
@@ -257,7 +262,7 @@ docs/              demo flow、PII 架构、README 资源和截图
 eval/              RAG evaluation seed file 和评估报告
 ```
 
-## 下一步该看什么
+## 继续阅读
 
 - Demo walkthrough: [docs/DEMO_FLOW.md](docs/DEMO_FLOW.md)
 - PII architecture: [docs/PII_ARCHITECTURE.md](docs/PII_ARCHITECTURE.md)
@@ -265,7 +270,7 @@ eval/              RAG evaluation seed file 和评估报告
 - Demo assets: [docs/demo/GITHUB_ASSETS.md](docs/demo/GITHUB_ASSETS.md)
 - Brand GIF storyboard: [docs/demo/MAILMIND_BRAND_GIF_STORYBOARD.md](docs/demo/MAILMIND_BRAND_GIF_STORYBOARD.md)
 
-## RAG Evaluation
+## RAG evaluation
 
 把评估问题加入 `eval/rag_eval.json` 后运行：
 

@@ -2,80 +2,77 @@
 
 [English](README.md) | [中文](README.zh.md)
 
-![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
-![Local-first](https://img.shields.io/badge/Architecture-Local--first-blue)
-![Gmail](https://img.shields.io/badge/Gmail-Read--only%20OAuth-red)
+<div align="center">
+  <h1>MailMind</h1>
+  <p><em>Turn a crowded inbox into a task system you can actually work from.</em></p>
+  <p>
+    <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT" />
+    <img src="https://img.shields.io/badge/Architecture-Local--first-blue" alt="Architecture: Local-first" />
+    <img src="https://img.shields.io/badge/Gmail-Read--only%20OAuth-red" alt="Gmail: Read-only OAuth" />
+    <img src="https://img.shields.io/badge/AI%20Search-RAG%20enabled-7c3aed" alt="AI Search: RAG enabled" />
+  </p>
+  <p><strong>A local-first Gmail intelligence workspace for people who act from their inbox.</strong></p>
+  <p>
+    MailMind reads Gmail through read-only OAuth, extracts action items with an LLM,
+    keeps the working data in local SQLite, and turns recent email into a clean dashboard,
+    a searchable memory layer, and optional Telegram reminders.
+  </p>
+  <p>
+    It is built for people first, and it is also reusable as a backend for agent workflows
+    or inbox-driven productivity systems.
+  </p>
+  <p>
+    <a href="#example-output">Example output</a> ·
+    <a href="#install">Install</a> ·
+    <a href="#what-it-gives-you">What it gives</a> ·
+    <a href="#how-it-works">How it works</a> ·
+    <a href="#ai-search-and-rag">AI Search</a> ·
+    <a href="#privacy-model">Privacy</a> ·
+    <a href="#read-next">Read next</a>
+  </p>
+</div>
+
+```bash
+git clone https://github.com/Parsiffal1/Mailmind.git && cd Mailmind
+```
+
+---
 
 ![MailMind brand hero](docs/demo/gifs/mailmind_brand_hero.gif)
 
-MailMind is a local-first Gmail intelligence agent that turns a crowded inbox into a task system, a searchable knowledge layer, and a privacy-aware personal workflow.
+<div align="center">
+  <sub>▲ Hero animation made for the MailMind product demo</sub>
+</div>
 
-It reads Gmail through the read-only Gmail API, extracts action items with an LLM, stores everything locally in SQLite, and gives you a dashboard, a RAG-based search layer over email bodies and PDF attachments, Telegram reminders, and configurable privacy controls.
-
-## Why It Feels Different
-
-Most inbox tools either stop at simple rules or ask you to hand your mailbox to a hosted service.
-
-MailMind takes a different route:
-
-- **Local-first by default**: database, attachments, and indexes stay on your machine.
-- **Structured task extraction**: deadlines, reply obligations, review items, and follow-ups are pulled out of noisy email threads.
-- **Source-grounded AI search**: answers come with supporting source cards instead of detached chatbot guesses.
-- **One coherent product surface**: FastAPI, Next.js, SQLite, Gmail OAuth, scheduler jobs, Telegram actions, RAG, and privacy boundaries work together instead of living as separate demos.
-- **Public-demo friendly**: the repository includes synthetic demo assets so the product can be shown safely without exposing real inbox data.
-
-## What You Get After One Refresh
+## Example output
 
 ```text
-Recent inbox activity
-  -> structured tasks with due dates and reply-needed flags
-  -> searchable email bodies and PDF attachments
-  -> source-backed answers to inbox questions
-  -> optional Telegram reminders and scheduled follow-ups
+Inbox refresh complete
+• New tasks extracted: 8
+• Reply-needed items: 3
+• Review-needed items: 2
+• Due soon: 4
+• Search index updated: email bodies + PDF attachments
+• Telegram reminders: enabled
+
+Worth acting on first
+1. Reply to recruiter about interview slots by Fri 2:00 PM
+2. Review landlord attachment and confirm signed lease details
+3. Finish TA grading follow-up before tonight
+
+Ask inbox questions
+• "What did the professor ask me to revise?"
+• "Which PDF had the reimbursement deadline?"
+• "Show the last thread where I promised to reply today"
 ```
 
-## Core Capabilities
+## Install
 
-- Refresh Gmail and turn recent emails into structured tasks.
-- Track due dates, priorities, reply-needed flags, and review-needed flags.
-- Search across email bodies and text-layer PDF attachments with hybrid retrieval.
-- Ask inbox questions and get answers backed by retrieved sources.
-- Run reminder flows through Telegram.
-- Choose between raw LLM calls and privacy-aware PII rehydration.
-- Demo the whole product safely with synthetic sample data.
+If you want the shortest safe path, start in demo mode first. It shows the real product flow without needing Gmail credentials or paid model calls.
 
-## Interface Preview
-
-
-![Tasks overview](docs/demo/screenshots/01_tasks_overview.png)
-![AI search answer](docs/demo/screenshots/02_ai_search_answer.png)
-
-The checked-in screenshots do not contain real emails, OAuth tokens, API keys, or private attachments.
-
-## Quick Navigation
-
-- [Why It Feels Different](#why-it-feels-different)
-- [What You Get After One Refresh](#what-you-get-after-one-refresh)
-- [Core Capabilities](#core-capabilities)
-- [Quick Start](#quick-start)
-- [Connect Real Gmail](#connect-real-gmail)
-- [Workflow at a Glance](#workflow-at-a-glance)
-- [AI Search and RAG](#ai-search-and-rag)
-- [Privacy Model](#privacy-model)
-- [Run Optional Services](#run-optional-services)
-- [Repository Structure](#repository-structure)
-- [What To Read Next](#what-to-read-next)
-- [Project Status and Boundaries](#project-status-and-boundaries)
-
-## Quick Start
-
-If you just want to see the product, use demo mode first. It does not require Gmail credentials or paid API calls.
-
-### Fast path
+### macOS / Linux
 
 ```bash
-git clone https://github.com/Parsiffal1/Mailmind.git
-cd Mailmind
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
@@ -107,12 +104,15 @@ http://127.0.0.1:8000/?demo=1
 ### Windows PowerShell
 
 ```powershell
-git clone https://github.com/Parsiffal1/Mailmind.git
-cd Mailmind
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 Copy-Item .env.example .env
+cd dashboard
+npm install
+npm run build
+cd ..
+python -m mailmind.api
 ```
 
 Set:
@@ -121,31 +121,37 @@ Set:
 MAILMIND_LLM_PROVIDER=mock
 ```
 
-Then run:
+## What it gives you
 
-```powershell
-cd dashboard
-npm install
-npm run build
-cd ..
-python -m mailmind.api
-```
+- **Structured tasks from messy threads**: due dates, reply-needed items, follow-ups, and review items are pulled out of recent email.
+- **A working dashboard instead of a raw inbox**: see what needs action now without rereading everything.
+- **Source-grounded inbox search**: answers come with retrieved evidence instead of detached chatbot guesses.
+- **Local-first storage**: email metadata, indexes, and workflow state stay on your machine by default.
+- **Optional Telegram reminders**: use the same extracted task layer to push reminders outside the inbox.
+- **A public-demo-safe repo**: the checked-in demo assets are synthetic, so the project can be shown safely.
 
-## Connect Real Gmail
+## Interface preview
+
+![Tasks overview](docs/demo/screenshots/01_tasks_overview.png)
+![AI search answer](docs/demo/screenshots/02_ai_search_answer.png)
+
+The checked-in screenshots do not contain real emails, OAuth tokens, API keys, or private attachments.
+
+## Connect real Gmail
 
 1. Open Google Cloud Console.
 2. Create or select a project.
 3. Enable the Gmail API.
-4. Configure Google Auth Platform consent screen for external testing.
+4. Configure the consent screen for external testing.
 5. Create an OAuth client ID with application type `Desktop app`.
 6. Download the OAuth client JSON and save it as `credentials.json` in the project root.
-7. Add your Gmail address as a test user in Google Auth Platform.
+7. Add your Gmail address as a test user.
 
 Then configure `.env`:
 
 ```text
 MAILMIND_LLM_PROVIDER=anthropic
-ANTHROPIC_API_KEY=your_anthropic_api_key
+ANTHROPIC_API_KEY=your_a...key
 MAILMIND_GMAIL_CREDENTIALS=credentials.json
 MAILMIND_GMAIL_TOKEN=token.json
 MAILMIND_POLL_QUERY=newer_than:14d
@@ -154,13 +160,13 @@ MAILMIND_POLL_LIMIT=40
 
 Run:
 
-```powershell
+```bash
 python -m mailmind.api
 ```
 
 Open `http://127.0.0.1:8000`, click `Refresh`, and complete the browser OAuth flow. MailMind writes `token.json` locally after the first successful login.
 
-## Workflow at a Glance
+## How it works
 
 ```text
 Refresh
@@ -172,7 +178,7 @@ Refresh
 ```
 
 ```text
-Gmail readonly OAuth
+Gmail read-only OAuth
         |
         v
 FastAPI backend + SQLite
@@ -180,7 +186,7 @@ FastAPI backend + SQLite
         +--> LLM task extraction -> tasks, deadlines, priorities
         |
         +--> AI search index -> email chunks + PDF chunks
-        |                         -> Chroma vector search + SQLite FTS5
+        |                       -> Chroma vector search + SQLite FTS5
         |
         +--> Next.js dashboard
         |
@@ -212,7 +218,7 @@ Current 50-case post-improvement benchmark (`eval/RAG_EVALUATION_RESULTS.md`):
 
 The first local embedding run downloads `BAAI/bge-m3` through `sentence-transformers`. If reranking is enabled, the first rerank query downloads `BAAI/bge-reranker-base`.
 
-## Privacy Model
+## Privacy model
 
 MailMind supports two routes:
 
@@ -223,29 +229,29 @@ PII Guard covers email addresses, phone numbers, SSNs, ID-like values, account-l
 
 This is privacy risk reduction, not compliance certification. SQLite databases, downloaded attachments, Chroma indexes, and FTS indexes remain local but are not globally redacted.
 
-## Run Optional Services
+## Run optional services
 
 Scheduler worker:
 
-```powershell
+```bash
 python -m mailmind.worker
 ```
 
 Telegram bot:
 
-```powershell
+```bash
 python -m mailmind.bot
 ```
 
 Telegram requires:
 
 ```text
-TELEGRAM_BOT_TOKEN=your_telegram_bot_token
+TELEGRAM_BOT_TOKEN=your_t...ken
 TELEGRAM_CHAT_ID=your_chat_id
 MAILMIND_TELEGRAM_NOTIFICATIONS_ENABLED=true
 ```
 
-## Repository Structure
+## Repository structure
 
 ```text
 mailmind/          FastAPI backend, Gmail client, extraction, database, RAG, worker, bot
@@ -257,7 +263,7 @@ docs/              Demo flow, PII architecture, README assets and screenshots
 eval/              Small RAG evaluation seed file and evaluation report
 ```
 
-## What To Read Next
+## Read next
 
 - Demo walkthrough: [docs/DEMO_FLOW.md](docs/DEMO_FLOW.md)
 - PII architecture: [docs/PII_ARCHITECTURE.md](docs/PII_ARCHITECTURE.md)
@@ -265,7 +271,7 @@ eval/              Small RAG evaluation seed file and evaluation report
 - Demo assets: [docs/demo/GITHUB_ASSETS.md](docs/demo/GITHUB_ASSETS.md)
 - Brand GIF storyboard: [docs/demo/MAILMIND_BRAND_GIF_STORYBOARD.md](docs/demo/MAILMIND_BRAND_GIF_STORYBOARD.md)
 
-## RAG Evaluation
+## RAG evaluation
 
 Add evaluation questions to `eval/rag_eval.json`, then run:
 
@@ -276,7 +282,7 @@ python scripts\eval_rag.py --mode hybrid --top-k 4
 
 The evaluator reports source recall and retrieved source labels. Synthetic and hard-negative evaluators build temporary local indexes and should not be committed with generated index data.
 
-## Project Status and Boundaries
+## Project status and boundaries
 
 MailMind is a working local MVP. It is suitable for personal local use, portfolio review, and further development.
 

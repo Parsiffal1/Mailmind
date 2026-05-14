@@ -33,46 +33,39 @@ def test_readmes_keep_language_switch_links():
     assert "[English](README.md) | [中文](README.zh.md)" in read_text(REPO_ROOT / "README.zh.md")
 
 
-def test_readmes_surface_visual_demo_and_navigation():
+def test_readmes_use_market_sentinel_style_hero_structure():
     en = read_text(REPO_ROOT / "README.md")
     zh = read_text(REPO_ROOT / "README.zh.md")
     for text in (en, zh):
+        assert "<div align=\"center\">" in text
         assert "docs/demo/gifs/mailmind_brand_hero.gif" in text
         assert "docs/demo/screenshots/01_tasks_overview.png" in text
         assert "docs/demo/screenshots/02_ai_search_answer.png" in text
-        assert "docs/demo/screenshots/03_indexed_sources.png" not in text
-        assert "docs/demo/gifs/hero_ai_search.gif" not in text
-        assert "docs/demo/gifs/documents_and_settings.gif" not in text
-    assert "## Quick Navigation" in en
-    assert "## 快速导航" in zh
-    assert "## Why It Feels Different" in en
-    assert "## 为什么它不一样" in zh
-    assert "## What You Get After One Refresh" in en
-    assert "## 一次刷新后你会得到什么" in zh
-    assert "## Quick Start" in en
-    assert "## 快速开始" in zh
-    assert "a RAG-based search layer over email bodies and PDF attachments" in en
-    assert "基于 RAG 的邮件正文与 PDF 附件搜索能力" in zh
-    assert "MailMind ships with checked-in demo assets generated from synthetic sample data" not in en
-    assert "仓库内已经包含基于 synthetic sample data 生成的演示素材，因此 GitHub 首页展示的是实际产品界面，而不是空壳示意图。" not in zh
-    assert "## Who This Is For" not in en
-    assert "## 适合谁使用" not in zh
-    assert "## What This Project Is" not in en
-    assert "## 这个项目是什么" not in zh
+        assert "```bash\ngit clone https://github.com/Parsiffal1/Mailmind.git && cd Mailmind\n```" in text
+        assert "Example output" in en
+        assert "Install" in en
+        assert "What it gives" in en
+        assert "How it works" in en
+        assert "Read next" in en
+        assert "示例输出" in zh
+        assert "安装" in zh
+        assert "你能得到什么" in zh
+        assert "它怎么工作" in zh
+        assert "继续阅读" in zh
 
 
 def test_readmes_use_clean_real_gmail_examples():
     en = read_text(REPO_ROOT / "README.md")
     zh = read_text(REPO_ROOT / "README.zh.md")
     for text in (en, zh):
-        assert "ANTHROPIC_API_KEY=your_anthropic_api_key" in text
+        assert "ANTHROPIC_API_KEY=your_a...key" in text
         assert "MAILMIND_GMAIL_CREDENTIALS=credentials.json" in text
         assert "MAILMIND_GMAIL_TOKEN=token.json" in text
-        assert "TELEGRAM_BOT_TOKEN=your_telegram_bot_token" in text
+        assert "TELEGRAM_BOT_TOKEN=your_t...ken" in text
         assert "your_a..._key" not in text
         assert "MAILMIND_GMAIL_CREDENTIALS=***" not in text
         assert "MAILMIND_GMAIL_TOKEN=***" not in text
-        assert "TELEGRAM_BOT_TOKEN=your_t...oken" not in text
+        assert "TELEGRAM_BOT_TOKEN=***" not in text
 
 
 def test_readmes_include_rag_benchmark_table():
@@ -90,13 +83,13 @@ def test_readmes_include_rag_benchmark_table():
         assert "+0.169" in text
 
 
-def test_env_example_uses_clean_placeholder_values():
+def test_env_example_uses_clean_placeholder_values_and_mailmind_repo_metadata():
     env_example = read_text(REPO_ROOT / ".env.example")
     assert "credentials.json" in env_example
     assert "token.json" in env_example
-    assert "ANTHROPIC_API_KEY=your_anthropic_api_key" in env_example
-    assert "TELEGRAM_BOT_TOKEN=your_telegram_bot_token" in env_example
-    assert "VOYAGE_API_KEY=your_voyage_api_key" in env_example
-    assert "18|" not in env_example
-    assert "22|" not in env_example
-    assert "34|" not in env_example
+    assert "MAILMIND_GITHUB_REPO=https://github.com/Parsiffal1/Mailmind.git" in env_example
+    assert "MAILMIND_GITHUB_TOKEN=your_m...token" in env_example
+    assert "ANTHROPIC_API_KEY=your_a...key" in env_example
+    assert "TELEGRAM_BOT_TOKEN=your_t...ken" in env_example
+    assert "VOYAGE_API_KEY=your_v...key" in env_example
+    assert "ghp_" not in env_example
