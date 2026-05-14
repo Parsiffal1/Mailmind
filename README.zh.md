@@ -2,21 +2,16 @@
 
 <div align="center">
   <h1>MailMind</h1>
-  <p><em>把拥挤的邮箱，变成一个真正能工作的任务系统。</em></p>
+  <p><em>一个本地优先的 Gmail 智能助手，把个人邮箱变成可搜索、可执行、可保护隐私的工作台。</em></p>
   <p>
     <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT" />
     <img src="https://img.shields.io/badge/Architecture-Local--first-blue" alt="Architecture: Local-first" />
     <img src="https://img.shields.io/badge/Gmail-Read--only%20OAuth-red" alt="Gmail: Read-only OAuth" />
     <img src="https://img.shields.io/badge/AI%20Search-RAG%20enabled-7c3aed" alt="AI Search: RAG enabled" />
   </p>
-  <p><strong>一个面向真实工作流的 local-first Gmail 智能工作台。</strong></p>
+  <p><strong>MailMind 是一个本地优先的 Gmail 智能助手，用于从个人邮箱中自动整理任务、截止日期和回复提醒，支持对邮件正文与 PDF 附件进行基于 RAG 的 AI Search。</strong></p>
   <p>
-    MailMind 通过只读 Gmail OAuth 拉取邮件，用 LLM 提取行动项，把工作数据保存在本地 SQLite，
-    再把最近邮件整理成可执行的 dashboard、可检索的信息层，以及可选的 Telegram 提醒。
-  </p>
-  <p>
-    它首先是给人直接使用的邮箱工作产品；如果需要，也可以作为 agent workflow
-    或 inbox-driven productivity system 的后端能力复用。
+    它内置可选的 PII 隐私保护，用来防止邮件中的敏感信息泄露到云端大模型；系统基于 Gmail read-only OAuth、LLM + Pydantic、SQLite、FastAPI、Next.js 和 hybrid RAG 构建，强调本地数据存储、RAG AI 问答，以及系统可配置的 PII 隐私保护。
   </p>
   <p>
     <a href="#界面预览">界面预览</a> ·

@@ -2,22 +2,16 @@
 
 <div align="center">
   <h1>MailMind</h1>
-  <p><em>Turn a crowded inbox into a task system you can actually work from.</em></p>
+  <p><em>A local-first Gmail assistant that turns your personal inbox into a searchable, actionable, privacy-aware workspace.</em></p>
   <p>
     <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT" />
     <img src="https://img.shields.io/badge/Architecture-Local--first-blue" alt="Architecture: Local-first" />
     <img src="https://img.shields.io/badge/Gmail-Read--only%20OAuth-red" alt="Gmail: Read-only OAuth" />
     <img src="https://img.shields.io/badge/AI%20Search-RAG%20enabled-7c3aed" alt="AI Search: RAG enabled" />
   </p>
-  <p><strong>A local-first Gmail intelligence workspace for people who act from their inbox.</strong></p>
+  <p><strong>MailMind is a local-first Gmail assistant that automatically organizes tasks, deadlines, and reply reminders from your personal inbox, and supports RAG-based AI Search across email bodies and PDF attachments.</strong></p>
   <p>
-    MailMind reads Gmail through read-only OAuth, extracts action items with an LLM,
-    keeps the working data in local SQLite, and turns recent email into a clean dashboard,
-    a searchable memory layer, and optional Telegram reminders.
-  </p>
-  <p>
-    It is built for people first, and it is also reusable as a backend for agent workflows
-    or inbox-driven productivity systems.
+    It includes optional PII privacy protection to keep sensitive email information from leaking to cloud LLMs. The system is built on Gmail read-only OAuth, LLM + Pydantic, SQLite, FastAPI, Next.js, and hybrid RAG, with an emphasis on local data storage, RAG-based AI question answering, and configurable PII privacy protection.
   </p>
   <p>
     <a href="#interface-preview">Interface preview</a> ·
