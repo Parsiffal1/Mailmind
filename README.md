@@ -107,7 +107,7 @@ MAILMIND_LLM_PROVIDER=mock
 - **Source-grounded inbox search**: answers come with retrieved evidence instead of detached chatbot guesses.
 - **Local-first storage**: email metadata, indexes, and workflow state stay on your machine by default.
 - **Optional Telegram reminders**: use the same extracted task layer to push reminders outside the inbox.
-- **A public-demo-safe repo**: the checked-in demo assets are synthetic, so the project can be shown safely.
+- **Optional privacy controls**: use configurable PII protection to reduce the chance of sensitive email content being sent to cloud LLMs.
 
 ## Connect real Gmail
 
@@ -255,7 +255,7 @@ The evaluator reports source recall and retrieved source labels. Synthetic and h
 
 ## Project status and boundaries
 
-MailMind is a working local MVP. It is suitable for personal local use, portfolio review, and further development.
+MailMind is a working local MVP. It is suitable for personal local use and continued development.
 
 Current boundaries:
 
