@@ -36,36 +36,45 @@ def test_readmes_keep_language_switch_links():
 def test_readmes_use_market_sentinel_style_hero_structure():
     en = read_text(REPO_ROOT / "README.md")
     zh = read_text(REPO_ROOT / "README.zh.md")
+
+    assert not en.startswith("# MailMind")
+    assert not zh.startswith("# MailMind")
+
+    clone_block = "```bash\ngit clone https://github.com/Parsiffal1/Mailmind.git && cd Mailmind\n```"
+
     for text in (en, zh):
         assert "<div align=\"center\">" in text
         assert "docs/demo/gifs/mailmind_brand_hero.gif" in text
         assert "docs/demo/screenshots/01_tasks_overview.png" in text
         assert "docs/demo/screenshots/02_ai_search_answer.png" in text
-        assert "```bash\ngit clone https://github.com/Parsiffal1/Mailmind.git && cd Mailmind\n```" in text
-        assert "Example output" in en
-        assert "Install" in en
-        assert "What it gives" in en
-        assert "How it works" in en
-        assert "Read next" in en
-        assert "示例输出" in zh
-        assert "安装" in zh
-        assert "你能得到什么" in zh
-        assert "它怎么工作" in zh
-        assert "继续阅读" in zh
+        assert clone_block in text
+        assert "Demo walkthrough" not in text
+
+    assert "Interface preview" in en
+    assert "Install" in en
+    assert "What it gives" in en
+    assert "How it works" in en
+    assert "Read next" in en
+    assert "Example output" not in en
+
+    assert "界面预览" in zh
+    assert "安装" in zh
+    assert "你能得到什么" in zh
+    assert "它怎么工作" in zh
+    assert "继续阅读" in zh
+    assert "示例输出" not in zh
 
 
 def test_readmes_use_clean_real_gmail_examples():
     en = read_text(REPO_ROOT / "README.md")
     zh = read_text(REPO_ROOT / "README.zh.md")
     for text in (en, zh):
-        assert "ANTHROPIC_API_KEY=your_a...key" in text
-        assert "MAILMIND_GMAIL_CREDENTIALS=credentials.json" in text
-        assert "MAILMIND_GMAIL_TOKEN=token.json" in text
-        assert "TELEGRAM_BOT_TOKEN=your_t...ken" in text
+        assert "ANTHROPIC_API_KEY=" in text
+        assert "MAILMIND_GMAIL_CREDENTIALS=" in text
+        assert "MAILMIND_GMAIL_TOKEN=" in text
+        assert "TELEGRAM_BOT_TOKEN=" in text
         assert "your_a..._key" not in text
-        assert "MAILMIND_GMAIL_CREDENTIALS=***" not in text
-        assert "MAILMIND_GMAIL_TOKEN=***" not in text
-        assert "TELEGRAM_BOT_TOKEN=***" not in text
+        assert "your_t...oken" not in text
 
 
 def test_readmes_include_rag_benchmark_table():
@@ -88,8 +97,8 @@ def test_env_example_uses_clean_placeholder_values_and_mailmind_repo_metadata():
     assert "credentials.json" in env_example
     assert "token.json" in env_example
     assert "MAILMIND_GITHUB_REPO=https://github.com/Parsiffal1/Mailmind.git" in env_example
-    assert "MAILMIND_GITHUB_TOKEN=your_m...token" in env_example
-    assert "ANTHROPIC_API_KEY=your_a...key" in env_example
-    assert "TELEGRAM_BOT_TOKEN=your_t...ken" in env_example
-    assert "VOYAGE_API_KEY=your_v...key" in env_example
+    assert "MAILMIND_GITHUB_TOKEN=" in env_example
+    assert "ANTHROPIC_API_KEY=" in env_example
+    assert "TELEGRAM_BOT_TOKEN=" in env_example
+    assert "VOYAGE_API_KEY=" in env_example
     assert "ghp_" not in env_example

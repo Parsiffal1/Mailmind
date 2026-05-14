@@ -19,7 +19,7 @@
     或 inbox-driven productivity system 的后端能力复用。
   </p>
   <p>
-    <a href="#示例输出">示例输出</a> ·
+    <a href="#界面预览">界面预览</a> ·
     <a href="#安装">安装</a> ·
     <a href="#你能得到什么">你能得到什么</a> ·
     <a href="#它怎么工作">它怎么工作</a> ·
@@ -41,27 +41,12 @@ git clone https://github.com/Parsiffal1/Mailmind.git && cd Mailmind
   <sub>▲ MailMind 产品演示用 Hero 动画</sub>
 </div>
 
-## 示例输出
+## 界面预览
 
-```text
-邮箱刷新完成
-• 新抽取任务：8
-• 待回复事项：3
-• 待复核事项：2
-• 即将到期：4
-• 搜索索引已更新：邮件正文 + PDF 附件
-• Telegram 提醒：已启用
+![任务总览](docs/demo/screenshots/01_tasks_overview.png)
+![AI 搜索答案](docs/demo/screenshots/02_ai_search_answer.png)
 
-建议先处理
-1. 周五下午 2 点前回复 recruiter 的面试时间
-2. 查看房东附件并确认 lease 细节
-3. 今晚前完成 TA grading follow-up
-
-可以直接问邮箱
-• “教授上次让我改哪几处？”
-• “报销截止日期是在那个 PDF 里提到的？”
-• “把我今天答应回复的最后一封线程找出来”
-```
+仓库里的截图不包含真实邮件、OAuth token、API key 或私人附件。
 
 ## 安装
 
@@ -126,13 +111,6 @@ MAILMIND_LLM_PROVIDER=mock
 - **默认 local-first**：邮件元数据、索引和工作流状态优先保留在你的机器上。
 - **可选 Telegram 提醒**：同一层任务抽取结果可以直接变成站外提醒。
 - **适合作品集公开展示**：仓库里的演示素材是 synthetic 的，可以安全展示。
-
-## 界面预览
-
-![任务总览](docs/demo/screenshots/01_tasks_overview.png)
-![AI 搜索答案](docs/demo/screenshots/02_ai_search_answer.png)
-
-仓库里的截图不包含真实邮件、OAuth token、API key 或私人附件。
 
 ## 接入真实 Gmail
 
@@ -262,7 +240,6 @@ eval/              RAG evaluation seed file 和评估报告
 
 ## 继续阅读
 
-- Demo walkthrough: [docs/DEMO_FLOW.md](docs/DEMO_FLOW.md)
 - PII architecture: [docs/PII_ARCHITECTURE.md](docs/PII_ARCHITECTURE.md)
 - Security notes: [SECURITY.md](SECURITY.md)
 - Demo assets: [docs/demo/GITHUB_ASSETS.md](docs/demo/GITHUB_ASSETS.md)

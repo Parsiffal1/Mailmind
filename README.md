@@ -1,5 +1,3 @@
-# MailMind
-
 [English](README.md) | [中文](README.zh.md)
 
 <div align="center">
@@ -22,7 +20,7 @@
     or inbox-driven productivity systems.
   </p>
   <p>
-    <a href="#example-output">Example output</a> ·
+    <a href="#interface-preview">Interface preview</a> ·
     <a href="#install">Install</a> ·
     <a href="#what-it-gives-you">What it gives</a> ·
     <a href="#how-it-works">How it works</a> ·
@@ -44,27 +42,12 @@ git clone https://github.com/Parsiffal1/Mailmind.git && cd Mailmind
   <sub>▲ Hero animation made for the MailMind product demo</sub>
 </div>
 
-## Example output
+## Interface preview
 
-```text
-Inbox refresh complete
-• New tasks extracted: 8
-• Reply-needed items: 3
-• Review-needed items: 2
-• Due soon: 4
-• Search index updated: email bodies + PDF attachments
-• Telegram reminders: enabled
+![Tasks overview](docs/demo/screenshots/01_tasks_overview.png)
+![AI search answer](docs/demo/screenshots/02_ai_search_answer.png)
 
-Worth acting on first
-1. Reply to recruiter about interview slots by Fri 2:00 PM
-2. Review landlord attachment and confirm signed lease details
-3. Finish TA grading follow-up before tonight
-
-Ask inbox questions
-• "What did the professor ask me to revise?"
-• "Which PDF had the reimbursement deadline?"
-• "Show the last thread where I promised to reply today"
-```
+The checked-in screenshots do not contain real emails, OAuth tokens, API keys, or private attachments.
 
 ## Install
 
@@ -129,13 +112,6 @@ MAILMIND_LLM_PROVIDER=mock
 - **Local-first storage**: email metadata, indexes, and workflow state stay on your machine by default.
 - **Optional Telegram reminders**: use the same extracted task layer to push reminders outside the inbox.
 - **A public-demo-safe repo**: the checked-in demo assets are synthetic, so the project can be shown safely.
-
-## Interface preview
-
-![Tasks overview](docs/demo/screenshots/01_tasks_overview.png)
-![AI search answer](docs/demo/screenshots/02_ai_search_answer.png)
-
-The checked-in screenshots do not contain real emails, OAuth tokens, API keys, or private attachments.
 
 ## Connect real Gmail
 
@@ -265,7 +241,6 @@ eval/              Small RAG evaluation seed file and evaluation report
 
 ## Read next
 
-- Demo walkthrough: [docs/DEMO_FLOW.md](docs/DEMO_FLOW.md)
 - PII architecture: [docs/PII_ARCHITECTURE.md](docs/PII_ARCHITECTURE.md)
 - Security notes: [SECURITY.md](SECURITY.md)
 - Demo assets: [docs/demo/GITHUB_ASSETS.md](docs/demo/GITHUB_ASSETS.md)
