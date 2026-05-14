@@ -43,6 +43,7 @@ function run(cmd, args) {
 
   const browser = await chromium.launch({ headless: true });
   const page = await browser.newPage({ viewport: { width, height } });
+  await page.addInitScript(() => { window.__gifExport = true; });
   await page.goto(`file://${htmlAbs}`, { waitUntil: 'load', timeout: 60000 });
   await page.waitForFunction(() => window.__ready === true, { timeout: 10000 });
 
@@ -61,8 +62,8 @@ function run(cmd, args) {
   await browser.close();
 
   run('ffmpeg', ['-y', '-loglevel', 'error', '-framerate', String(fps), '-i', path.join(frameDir, 'frame-%04d.png'), '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-profile:v', 'high', '-level', '4.0', '-crf', '18', '-preset', 'medium', '-movflags', '+faststart', mp4Out]);
-  run('ffmpeg', ['-y', '-loglevel', 'error', '-i', mp4Out, '-vf', `fps=${fps},scale=${gifWidth}:-1:flags=lanczos,palettegen=stats_mode=diff`, palette]);
-  run('ffmpeg', ['-y', '-loglevel', 'error', '-i', mp4Out, '-i', palette, '-lavfi', `fps=${fps},scale=${gifWidth}:-1:flags=lanczos[x];[x][1:v]paletteuse=dither=bayer:bayer_scale=5:diff_mode=rectangle`, gifOut]);
+  run('ffmpeg', ['-y', '-loglevel', 'error', '-i', mp4Out, '-vf', `fps=${fps},scale=${gifWidth}:-1:flags=lanczos,palettegen=stats_mode=diff:max_colors=128`, palette]);
+  run('ffmpeg', ['-y', '-loglevel', 'error', '-i', mp4Out, '-i', palette, '-lavfi', `fps=${fps},scale=${gifWidth}:-1:flags=lanczos[x];[x][1:v]paletteuse=dither=none`, gifOut]);
 
   rmSync(palette, { force: true });
   rmSync(frameDir, { recursive: true, force: true });

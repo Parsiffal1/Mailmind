@@ -65,6 +65,7 @@
       background-position: 0 0, 2px 1px;
       mix-blend-mode: soft-light;
     }
+    .gif-export .noise { opacity: 0; }
     .grid {
       background-image:
         linear-gradient(to right, rgba(138,166,207,0.08) 1px, transparent 1px),
@@ -73,6 +74,7 @@
       opacity: 0.46;
       mask-image: linear-gradient(180deg, rgba(255,255,255,0.54), rgba(255,255,255,0.18) 68%, transparent 100%);
     }
+    .gif-export .grid { opacity: 0.32; }
     .glow::before,.glow::after {
       content: "";
       position: absolute;
@@ -89,6 +91,7 @@
       right: 160px; bottom: 150px;
       background: rgba(70,185,167,0.14);
     }
+    .gif-export .glow { opacity: 0.72; }
 
     .eyebrow {
       position: absolute;
@@ -166,6 +169,7 @@
       backdrop-filter: blur(16px);
       opacity: 0;
     }
+    .gif-export .query-shell { backdrop-filter: none; }
     .query-bar {
       display: grid;
       grid-template-columns: 1fr auto auto auto;
@@ -441,6 +445,7 @@
     .shard.one { left: 58px; top: 288px; width: 248px; }
     .shard.two { right: 42px; top: 270px; width: 286px; }
     .shard.three { right: 124px; bottom: 18px; width: 258px; }
+    .gif-export .shard { backdrop-filter: none; }
 
     .trace {
       position: absolute;
@@ -564,6 +569,7 @@
 
   <script>
     const DURATION = 10.5;
+    const GIF_MODE = !!window.__gifExport;
     const prompt = 'What actions need attention this week?';
     const stage = document.getElementById('stage');
     const eyebrow = document.getElementById('eyebrow');
@@ -600,8 +606,8 @@
 
     function render(sec) {
       const t = Math.min(sec, DURATION);
-      const driftX = Math.sin(t * 0.44) * 4;
-      const driftY = Math.cos(t * 0.34) * 4;
+      const driftX = GIF_MODE ? 0 : Math.sin(t * 0.44) * 4;
+      const driftY = GIF_MODE ? 0 : Math.cos(t * 0.34) * 4;
       stage.style.transform = `translate(-50%, -50%) translate(${driftX}px, ${driftY}px)`;
 
       const eyebrowP = fade(t, 0.12, 0.75);
@@ -642,7 +648,7 @@
 
       shards.forEach((el, idx) => {
         const p = expoOut(seg(t, 5.35 + idx * 0.18, 5.75 + idx * 0.18));
-        const float = Math.sin((t + idx) * 0.8) * 5;
+        const float = GIF_MODE ? 0 : Math.sin((t + idx) * 0.8) * 5;
         setStyle(el, {
           opacity: String(p),
           transform: `translateY(${lerp(16, 0, p) + float}px) scale(${lerp(0.98, 1, p)})`
@@ -664,6 +670,10 @@
       render(sec);
     };
     document.fonts.ready.then(() => {
+      if (window.__gifExport) {
+        document.documentElement.classList.add('gif-export');
+        document.body.classList.add('gif-export');
+      }
       requestAnimationFrame(() => {
         render(0);
         window.__ready = true;

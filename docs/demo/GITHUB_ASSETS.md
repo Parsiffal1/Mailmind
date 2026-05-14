@@ -22,6 +22,8 @@ These README-safe assets are generated from sample data only. They do not contai
 
 ## Regenerate
 
+The README hero GIF uses a GIF-safe export path rather than the default huashu-design recordVideo pipeline. The default pipeline produces a 25fps source MP4; forcing that into a 30fps GIF duplicates frames and makes dark gradients/noise shimmer. `render_true30_gif.cjs` solves this by seeking the animation timeline frame-by-frame, capturing true 30fps stills, and enabling a GIF-safe mode that disables the most shimmer-prone effects before palette quantization.
+
 ```bash
 export NODE_PATH=/root/.hermes/hermes-agent/node_modules
 node scripts/render_true30_gif.cjs docs/assets/mailmind-hero.html --duration=10.5 --fps=30 --width=1920 --height=1080 --gif-width=820
