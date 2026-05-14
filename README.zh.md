@@ -35,10 +35,10 @@ git clone https://github.com/Parsiffal1/Mailmind.git && cd Mailmind
 
 ---
 
-![MailMind brand hero](docs/demo/gifs/mailmind_brand_hero.gif)
+![MailMind hero animation](docs/assets/mailmind-hero.gif)
 
 <div align="center">
-  <sub>▲ MailMind 产品演示用 Hero 动画</sub>
+  <sub>▲ Hero animation made with <a href="https://github.com/alchaincyf/huashu-design/tree/master">huashu-design</a></sub>
 </div>
 
 ## 界面预览

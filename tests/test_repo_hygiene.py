@@ -44,7 +44,7 @@ def test_readmes_use_market_sentinel_style_hero_structure():
 
     for text in (en, zh):
         assert "<div align=\"center\">" in text
-        assert "docs/demo/gifs/mailmind_brand_hero.gif" in text
+        assert "docs/assets/mailmind-hero.gif" in text
         assert "docs/demo/screenshots/01_tasks_overview.png" in text
         assert "docs/demo/screenshots/02_ai_search_answer.png" in text
         assert clone_block in text
