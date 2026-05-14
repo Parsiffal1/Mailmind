@@ -24,9 +24,9 @@ These README-safe assets are generated from sample data only. They do not contai
 
 ```bash
 export NODE_PATH=/root/.hermes/hermes-agent/node_modules
-node /tmp/huashu-design/scripts/render-video.js docs/assets/mailmind-hero.html --duration=12 --width=1920 --height=1080 --readytimeout=8 --fontwait=1.5
-ffmpeg -y -loglevel error -i docs/assets/mailmind-hero.mp4 -vf "fps=20,scale=820:-1:flags=lanczos,palettegen=stats_mode=diff" docs/assets/.mailmind-hero-palette.png
-ffmpeg -y -loglevel error -i docs/assets/mailmind-hero.mp4 -i docs/assets/.mailmind-hero-palette.png -lavfi "fps=20,scale=820:-1:flags=lanczos[x];[x][1:v]paletteuse=dither=bayer:bayer_scale=5:diff_mode=rectangle" docs/assets/mailmind-hero.gif
+node /tmp/huashu-design/scripts/render-video.js docs/assets/mailmind-hero.html --duration=11 --width=1920 --height=1080 --readytimeout=8 --fontwait=1.5
+ffmpeg -y -loglevel error -i docs/assets/mailmind-hero.mp4 -vf "fps=30,scale=820:-1:flags=lanczos,palettegen=stats_mode=diff" docs/assets/.mailmind-hero-palette.png
+ffmpeg -y -loglevel error -i docs/assets/mailmind-hero.mp4 -i docs/assets/.mailmind-hero-palette.png -lavfi "fps=30,scale=820:-1:flags=lanczos[x];[x][1:v]paletteuse=dither=bayer:bayer_scale=5:diff_mode=rectangle" docs/assets/mailmind-hero.gif
 rm -f docs/assets/.mailmind-hero-palette.png docs/assets/mailmind-hero.mp4 docs/assets/mailmind-hero-60fps.mp4
 node scripts/capture_demo_screenshots.mjs
 python scripts/create_demo_gifs.py
